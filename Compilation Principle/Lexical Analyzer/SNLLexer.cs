@@ -31,7 +31,7 @@ namespace RDCompiler.Lexical_Analyzer
                     }
                     if (!Char.IsLetterOrDigit(Content[_Pointer]))
                         _Pointer--;
-                    _TokenList.Add(new SNLToken(_LineNo, SNLToken._SNLLexType.ID, sb.ToString(), sb.ToString()));
+                    _TokenList.Add(new SNLToken(_LineNo, SNLLexType.ID, sb.ToString(), sb.ToString()));
                 }
                 else if (Char.IsDigit(Content[_Pointer]))
                 {
@@ -43,21 +43,21 @@ namespace RDCompiler.Lexical_Analyzer
                     }
                     if (!Char.IsDigit(Content[_Pointer]))
                         _Pointer--;
-                    _TokenList.Add(new SNLToken(_LineNo, SNLToken._SNLLexType.INTC, sb.ToString(), sb.ToString()));
+                    _TokenList.Add(new SNLToken(_LineNo, SNLLexType.INTC, sb.ToString(), sb.ToString()));
                 }
                 else if (IsSingleDelimiter(Content[_Pointer]))
                 {
-                    _TokenList.Add(new SNLToken(_LineNo, SNLToken._SNLLexType.SINGLED, "无语义信息", Content[_Pointer].ToString()));
+                    _TokenList.Add(new SNLToken(_LineNo, SNLLexType.SINGLED, "无语义信息", Content[_Pointer].ToString()));
                 }
                 else if (Content[_Pointer] == ':')
                 {
                     if (_Pointer + 1 <= Content.Length - 1 && Content[++_Pointer] == '=')
-                        _TokenList.Add(new SNLToken(_LineNo, SNLToken._SNLLexType.ASSIGN, "无语义信息", ":="));
+                        _TokenList.Add(new SNLToken(_LineNo, SNLLexType.ASSIGN, "无语义信息", ":="));
                     else
                     {
                         List<string> s = new List<string>();
                         s.Add(_LineNo.ToString());
-                        s.Add(SNLToken._SNLLexType.ASSIGN.ToString());
+                        s.Add(SNLLexType.ASSIGN.ToString());
                         s.Add("UNEXPECTED CHARACTER" + Content[_Pointer] + "AFTER \':\'\n");
                         _DebugList.Add(s);
                     }
@@ -70,7 +70,7 @@ namespace RDCompiler.Lexical_Analyzer
                 else if (Content[_Pointer] == '.')
                 {
                     if (_Pointer + 1 <= Content.Length - 1 && Content[++_Pointer] == '.')
-                        _TokenList.Add(new SNLToken(_LineNo, SNLToken._SNLLexType.UNDERANGE, "无语义信息", ".."));
+                        _TokenList.Add(new SNLToken(_LineNo, SNLLexType.UNDERANGE, "无语义信息", ".."));
                     else
                     {
                         _Pointer--;
@@ -78,7 +78,7 @@ namespace RDCompiler.Lexical_Analyzer
                         {
                             List<string> s = new List<string>();
                             s.Add(_LineNo.ToString());
-                            s.Add(SNLToken._SNLLexType.UNDERANGE.ToString());
+                            s.Add(SNLLexType.UNDERANGE.ToString());
                             s.Add("UNEXPECTED DOT\n");
                             _DebugList.Add(s);
                         }
@@ -88,12 +88,12 @@ namespace RDCompiler.Lexical_Analyzer
                 {
                     if (_Pointer + 1 <= Content.Length - 1 && Char.IsLetterOrDigit(Content[++_Pointer]))
                         if (_Pointer + 1 <= Content.Length - 1 && Content[++_Pointer] == '\'')
-                            _TokenList.Add(new SNLToken(_LineNo, SNLToken._SNLLexType.CHARC, Content[_Pointer - 1].ToString(), Content[_Pointer - 1].ToString()));
+                            _TokenList.Add(new SNLToken(_LineNo, SNLLexType.CHARC, Content[_Pointer - 1].ToString(), Content[_Pointer - 1].ToString()));
                         else
                         {
                             List<string> s = new List<string>();
                             s.Add(_LineNo.ToString());
-                            s.Add(SNLToken._SNLLexType.CHARC.ToString());
+                            s.Add(SNLLexType.CHARC.ToString());
                             s.Add("-MORE THAN ONE CHARACTER BETWEEN \"\'\" AND \"\'\"\n");
                             _DebugList.Add(s);
                         }
@@ -103,14 +103,14 @@ namespace RDCompiler.Lexical_Analyzer
                     int x = Content[_Pointer];
                     List<string> s = new List<string>();
                     s.Add(_LineNo.ToString());
-                    s.Add(SNLToken._SNLLexType.CHARC.ToString());
+                    s.Add(SNLLexType.CHARC.ToString());
                     s.Add("-UNKNOWN CHARACTER-" + x + "\n");
                     _DebugList.Add(s);
                 }
                     
                 _Pointer++;
             }
-            _TokenList.Add(new SNLToken(_LineNo - 1, SNLToken._SNLLexType.ENDFILE, "无语义信息", ""));
+            _TokenList.Add(new SNLToken(_LineNo - 1, SNLLexType.ENDFILE, "无语义信息", ""));
         }
 
         private bool IsSingleDelimiter(char c)

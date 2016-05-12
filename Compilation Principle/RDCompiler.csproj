@@ -77,6 +77,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Syntactic Analyzer\SNLParser.cs" />
+    <Compile Include="Syntactic Analyzer\SNLTreeNode.cs" />
     <EmbeddedResource Include="Notepad\NotepadAbout.resx">
       <DependentUpon>NotepadAbout.cs</DependentUpon>
     </EmbeddedResource>

@@ -3,27 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RDCompiler.Language;
 
 namespace RDCompiler.Lexical_Analyzer
 {
     class SNLToken
     {
-        public enum _SNLLexType { ENDFILE, ERROR, PROGRAM, PROCEDURE, TYPE, VAR, IF, THEN, ELSE, FI, WHILE, DO, ENDWH, BEGIN, END, READ, WRITE, ARRAY, OF, RECORD, RETURN, INTEGER, CHAR, ID, INTC, CHARC, ASSIGN, EQ, LT, PLUS, MINUS, TIMES, OVER, LPAREN, RPAREN, DOT, COLON, SEMI, COMMA, LMIDPAREN, RMIDPAREN, UNDERANGE, SINGLED};
-       
         private int _LineNo;
-        private _SNLLexType _Lex;
+        private SNLLexType _Lex;
         private string _Sem;
         private string _Str;
 
-        public SNLToken(int LineNo, _SNLLexType Lex, string Sem, string Str)
+        public SNLToken(int LineNo, SNLLexType Lex, string Sem, string Str)
         {
             _LineNo = LineNo;
             _Lex = Lex;
             _Sem = Sem;
             _Str = Str;
-            if (Lex == _SNLLexType.ID)
+            if (Lex == SNLLexType.ID)
             {
-                foreach (_SNLLexType iter in Enum.GetValues(typeof(_SNLLexType)))
+                foreach (SNLLexType iter in Enum.GetValues(typeof(SNLLexType)))
                 {
                     if (iter.ToString() == Sem.ToUpper())
                     {
@@ -32,52 +31,52 @@ namespace RDCompiler.Lexical_Analyzer
                     }
                 }
             }
-            else if (Lex == _SNLLexType.SINGLED) 
+            else if (Lex == SNLLexType.SINGLED) 
             {
                 switch(Str)
                 {
                     case ",":
-                        _Lex = _SNLLexType.COMMA;
+                        _Lex = SNLLexType.COMMA;
                         break;
                     case "+":
-                        _Lex = _SNLLexType.PLUS;
+                        _Lex = SNLLexType.PLUS;
                         break;
                     case "-":
-                        _Lex = _SNLLexType.MINUS;
+                        _Lex = SNLLexType.MINUS;
                         break;
                     case "*":
-                        _Lex = _SNLLexType.TIMES;
+                        _Lex = SNLLexType.TIMES;
                         break;
                     case "/":
-                        _Lex = _SNLLexType.OVER;
+                        _Lex = SNLLexType.OVER;
                         break;
                     case "(":
-                        _Lex = _SNLLexType.LPAREN;
+                        _Lex = SNLLexType.LPAREN;
                         break;
                     case ")":
-                        _Lex = _SNLLexType.RPAREN;
+                        _Lex = SNLLexType.RPAREN;
                         break;
                     case "[":
-                        _Lex = _SNLLexType.LMIDPAREN;
+                        _Lex = SNLLexType.LMIDPAREN;
                         break;
                     case "]":
-                        _Lex = _SNLLexType.RMIDPAREN;
+                        _Lex = SNLLexType.RMIDPAREN;
                         break;
                     case ";":
-                        _Lex = _SNLLexType.SEMI;
+                        _Lex = SNLLexType.SEMI;
                         break;
                     case "<":
-                        _Lex = _SNLLexType.LT;
+                        _Lex = SNLLexType.LT;
                         break;
                     case "=":
-                        _Lex = _SNLLexType.EQ;
+                        _Lex = SNLLexType.EQ;
                         break;
 
                 }
             }
         }
 
-        public void SetSNLToken(int LineNo, _SNLLexType Lex, string Sem, string Str)
+        public void SetSNLToken(int LineNo, SNLLexType Lex, string Sem, string Str)
         {
             _LineNo = LineNo;
             _Lex = Lex;
