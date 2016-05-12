@@ -52,7 +52,7 @@
             this.CompileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Lexer = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.SaveRe = new System.Windows.Forms.ToolStripMenuItem();
+            this.SaveLexerRe = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SeeHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
@@ -76,6 +76,8 @@
             this.DebugPanel = new System.Windows.Forms.Panel();
             this.DebugLabel = new System.Windows.Forms.Label();
             this.DebugGridview = new System.Windows.Forms.DataGridView();
+            this.Parser = new System.Windows.Forms.ToolStripMenuItem();
+            this.SaveParserRe = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuList.SuspendLayout();
             this.InfoPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainSplitcontainer)).BeginInit();
@@ -253,7 +255,7 @@
             // ChangeFont
             // 
             this.ChangeFont.Name = "ChangeFont";
-            this.ChangeFont.Size = new System.Drawing.Size(152, 22);
+            this.ChangeFont.Size = new System.Drawing.Size(123, 22);
             this.ChangeFont.Text = "字体(F)...";
             this.ChangeFont.Click += new System.EventHandler(this.ChangeFont_Click);
             // 
@@ -261,8 +263,10 @@
             // 
             this.CompileMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Lexer,
+            this.Parser,
             this.toolStripSeparator4,
-            this.SaveRe});
+            this.SaveLexerRe,
+            this.SaveParserRe});
             this.CompileMenuItem.Name = "CompileMenuItem";
             this.CompileMenuItem.Size = new System.Drawing.Size(60, 21);
             this.CompileMenuItem.Text = "编译(C)";
@@ -271,22 +275,22 @@
             // 
             this.Lexer.Name = "Lexer";
             this.Lexer.ShortcutKeys = System.Windows.Forms.Keys.F6;
-            this.Lexer.Size = new System.Drawing.Size(184, 22);
+            this.Lexer.Size = new System.Drawing.Size(238, 22);
             this.Lexer.Text = "词法分析器(L)";
             this.Lexer.Click += new System.EventHandler(this.Lexer_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(181, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(235, 6);
             // 
-            // SaveRe
+            // SaveLexerRe
             // 
-            this.SaveRe.Name = "SaveRe";
-            this.SaveRe.ShortcutKeys = System.Windows.Forms.Keys.F7;
-            this.SaveRe.Size = new System.Drawing.Size(184, 22);
-            this.SaveRe.Text = "保存结果窗口(S)";
-            this.SaveRe.Click += new System.EventHandler(this.SaveRe_Click);
+            this.SaveLexerRe.Name = "SaveLexerRe";
+            this.SaveLexerRe.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F6)));
+            this.SaveLexerRe.Size = new System.Drawing.Size(238, 22);
+            this.SaveLexerRe.Text = "保存词法分析结果(C)";
+            this.SaveLexerRe.Click += new System.EventHandler(this.SaveRe_Click);
             // 
             // HelpMenuItem
             // 
@@ -475,7 +479,7 @@
             this.ReGridview.ReadOnly = true;
             this.ReGridview.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.ReGridview.RowTemplate.Height = 23;
-            this.ReGridview.Size = new System.Drawing.Size(446, 369);
+            this.ReGridview.Size = new System.Drawing.Size(449, 369);
             this.ReGridview.TabIndex = 8;
             this.ReGridview.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.ReGridview_RowPostPaint);
             // 
@@ -584,6 +588,20 @@
             this.DebugGridview.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DebugGridview_CellDoubleClick);
             this.DebugGridview.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.DebugGridview_RowPostPaint);
             // 
+            // Parser
+            // 
+            this.Parser.Name = "Parser";
+            this.Parser.ShortcutKeys = System.Windows.Forms.Keys.F7;
+            this.Parser.Size = new System.Drawing.Size(238, 22);
+            this.Parser.Text = "语法分析器(P)";
+            // 
+            // SaveParserRe
+            // 
+            this.SaveParserRe.Name = "SaveParserRe";
+            this.SaveParserRe.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F7)));
+            this.SaveParserRe.Size = new System.Drawing.Size(238, 22);
+            this.SaveParserRe.Text = "保存语法分析结果(Y)";
+            // 
             // NotepadForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -663,10 +681,12 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripMenuItem NotepadAbout;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.ToolStripMenuItem SaveRe;
+        private System.Windows.Forms.ToolStripMenuItem SaveLexerRe;
         private System.Windows.Forms.DataGridViewTextBoxColumn LineNoColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn MeaningColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn GrammarColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn StringColumn;
+        private System.Windows.Forms.ToolStripMenuItem Parser;
+        private System.Windows.Forms.ToolStripMenuItem SaveParserRe;
     }
 }

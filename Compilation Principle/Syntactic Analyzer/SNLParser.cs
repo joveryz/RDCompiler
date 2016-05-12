@@ -57,7 +57,13 @@ namespace RDCompiler.Syntactic_Analyzer
 
         private bool MatchDeclarePart()
         {
-            throw new NotImplementedException();
+            //if (!MatchTypeDecpart())
+            //    return false;
+            //if (!MatchVarDecpart())
+            //    return false;
+            //if (!MatchProcDecpart())
+            //    return false;
+            return true;
         }
 
         private bool MatchProgramBody()
