@@ -31,22 +31,26 @@ namespace RDCompiler.Syntactic_Analyzer
 
         struct Attr
         {
-            ArrayAttr _ArrayAttr;
-            ProcAttr _ProcAttr;
-            ExpAttr _ExpAttr;
+            object 
+            //ArrayAttr _ArrayAttr;
+            //ProcAttr _ProcAttr;
+            //ExpAttr _ExpAttr;
         }
 
         private List<SNLTreeNode> _Child;
         private SNLTreeNode _Sibling;
         private int _LinoNo;
         private SNLTreeNodeType _NodeKind;
-        private SNLTreeNodeTypeDecK _KindDec;
-        private SNLTreeNodeTypeExpK _KingExp;
-        private SNLTreeNodeTypeStmtK _StmtK;
+        private object _Kind;
+
+        //private SNLTreeNodeTypeDecK _KindDec;
+        //private SNLTreeNodeTypeExpK _KingExp;
+        //private SNLTreeNodeTypeStmtK _StmtK;
+
         private int _IDNum;
         private List<string> _Name;
         private List<int> _Table;
         private string _TypeName;
-        private Attr _Attr;
+        private object _Attr;
     }
 }
