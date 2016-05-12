@@ -84,14 +84,14 @@ namespace RDCompiler.Lexical_Analyzer
             _Str = Str;
         }
 
-        public string GetLineNo()
+        public int GetLineNo()
         {
-            return _LineNo.ToString();
+            return _LineNo;
         }
 
-        public string GetLexType()
+        public SNLLexType GetLexType()
         {
-            return _Lex.ToString();
+            return _Lex;
         }
 
         public string GetSem()
@@ -103,6 +103,7 @@ namespace RDCompiler.Lexical_Analyzer
         {
             return _Str;
         }
+
         public override string ToString()
         {
             return String.Format(_LineNo.ToString() + "   " + _Lex.ToString() + "   " + _Sem + "\n");

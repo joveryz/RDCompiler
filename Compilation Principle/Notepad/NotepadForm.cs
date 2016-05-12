@@ -290,8 +290,8 @@ namespace RDCompiler
             foreach (SNLToken token in TokenList)
             {
                 int index = ReGridview.Rows.Add();
-                ReGridview.Rows[index].Cells[0].Value = token.GetLineNo();
-                ReGridview.Rows[index].Cells[1].Value = token.GetLexType();
+                ReGridview.Rows[index].Cells[0].Value = token.GetLineNo().ToString();
+                ReGridview.Rows[index].Cells[1].Value = token.GetLexType().ToString();
                 ReGridview.Rows[index].Cells[2].Value = token.GetSem();
                 ReGridview.Rows[index].Cells[3].Value = token.GetString();
                 flag = true;

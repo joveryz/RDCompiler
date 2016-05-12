@@ -58,7 +58,7 @@ namespace RDCompiler.Lexical_Analyzer
                         List<string> s = new List<string>();
                         s.Add(_LineNo.ToString());
                         s.Add(SNLLexType.ASSIGN.ToString());
-                        s.Add("UNEXPECTED CHARACTER" + Content[_Pointer] + "AFTER \':\'\n");
+                        s.Add("UNEXPECTED CHARACTER" + Content[_Pointer--] + "AFTER \':\'\n");
                         _DebugList.Add(s);
                     }
                         
@@ -81,6 +81,7 @@ namespace RDCompiler.Lexical_Analyzer
                             s.Add(SNLLexType.UNDERANGE.ToString());
                             s.Add("UNEXPECTED DOT\n");
                             _DebugList.Add(s);
+                            _Pointer--;
                         }
                     }
                 }
@@ -94,8 +95,9 @@ namespace RDCompiler.Lexical_Analyzer
                             List<string> s = new List<string>();
                             s.Add(_LineNo.ToString());
                             s.Add(SNLLexType.CHARC.ToString());
-                            s.Add("-MORE THAN ONE CHARACTER BETWEEN \"\'\" AND \"\'\"\n");
+                            s.Add("MORE THAN ONE CHARACTER BETWEEN \"\'\" AND \"\'\"\n");
                             _DebugList.Add(s);
+                            _Pointer--;
                         }
                 }
                 else if (Content[_Pointer] != ' ' && Content[_Pointer] != '\n' && Content[_Pointer] != '\r' && Content[_Pointer] != '\t')
@@ -104,7 +106,7 @@ namespace RDCompiler.Lexical_Analyzer
                     List<string> s = new List<string>();
                     s.Add(_LineNo.ToString());
                     s.Add(SNLLexType.CHARC.ToString());
-                    s.Add("-UNKNOWN CHARACTER-" + x + "\n");
+                    s.Add("UNKNOWN CHARACTER" + x + "\n");
                     _DebugList.Add(s);
                 }
                     

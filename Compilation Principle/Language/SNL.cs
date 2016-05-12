@@ -10,21 +10,23 @@ namespace RDCompiler.Language
 
     public enum SNLTreeNodeType { ProK, PheadK, TypeK, VarK, ProcDecK, StmLK, DecK, StmtK, ExpK };
 
-    public enum SNLTreeNodeTypeDecK { ArrayK, CharK, IntegerK, RecordK, IdK, NULL};
+    public enum SNLTreeNodeTypeDecK { ArrayK, CharK, IntegerK, RecordK, IdK };
 
-    public enum SNLTreeNodeTypeStmtK { IfK, WhileK, AssignK, ReadK, WriteK, CallK, ReturnK, NULL};
+    public enum SNLTreeNodeTypeStmtK { IfK, WhileK, AssignK, ReadK, WriteK, CallK, ReturnK };
 
-    public enum SNLTreeNodeTypeExpK { OpK, ConstK, IdK, NULL };
+    public enum SNLTreeNodeTypeExpK { OpK, ConstK, IdK };
 
-    public enum SNLChildType { INTEGER, CHARC };
+    public enum SNLAttrType { NULL, ArrayAttr, ProcAttr, ExpAttr };
 
-    public enum SNLParamtType { VALPARAMTYPE, VARPARAMTYPE }
+    public enum SNLArrayChildType { INTEGER, CHARC };
 
-    public enum SNLAttrOPType { LT, EQ, PLUS, MINUS, TIMES, OVER };
+    public enum SNLProcParamtType { VALPARAMTYPE, VARPARAMTYPE }
 
-    public enum SNLAttrVarKindType { IdV, ArrayMembV, FieldMembV };
+    public enum SNLExpAttrOPType { LT, EQ, PLUS, MINUS, TIMES, OVER };
 
-    public enum SNLAttrType { Void, Integer, Boolean };
+    public enum SNLExpAttrVarKindType { IdV, ArrayMembV, FieldMembV };
+
+    public enum SNLExpAttrType { Void, Integer, Boolean };
 
 
 }
