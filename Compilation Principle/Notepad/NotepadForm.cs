@@ -19,6 +19,7 @@ namespace RDCompiler
 {
     public partial class NotepadForm : Form
     {
+        NotepadLexerResult _LexerReForm = new NotepadLexerResult();
         private bool _IsDirty = false;
         private string _CurrFileContent = "";
         private string _CurrFileName = "";
@@ -91,26 +92,6 @@ namespace RDCompiler
 
         private void UpdateCurrNumberLabel()
         {
-            //LineNumber.Font = OldFont;
-            //Point pos = new Point(0, 0);
-            //int firstIndex = FileTextbox.GetCharIndexFromPosition(pos);
-            //int firstLine = FileTextbox.GetLineFromCharIndex(firstIndex);
-            //pos.X = ClientRectangle.Width;
-            //pos.Y = ClientRectangle.Height;
-            //int lastIndex = FileTextbox.GetCharIndexFromPosition(pos);
-            //int lastLine = FileTextbox.GetLineFromCharIndex(lastIndex);
-            //int myStart = FileTextbox.SelectionStart;
-            //int myLine = FileTextbox.GetLineFromCharIndex(myStart) + 1;
-            //pos = FileTextbox.GetPositionFromCharIndex(lastIndex);
-            //if (lastIndex > _currentLine || lastIndex < _currentLine)
-            //{
-            //    LineNumber.Text = "";
-            //    for (int i = firstLine; i <= lastLine + 1; i++)
-            //    {
-            //        LineNumber.Text += i + 1 + "\n";
-            //    }
-            //}
-            //_currentLine = lastIndex;
             int lines = 0;
             StringBuilder sb = new StringBuilder();
             string s = CurrTextbox.Text;
@@ -276,30 +257,16 @@ namespace RDCompiler
                 MessageBox.Show("请选择编程语言！", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            
             SNLLexer snllexer = new SNLLexer();
             snllexer.StartLexer(CurrTextbox.Text);
             List<SNLToken> TokenList = snllexer.GetTokenList();
             List<List<string>> DebugList = snllexer.GetDebugList();
-            ReGridview.Rows.Clear();
-            ReGridview.Columns.Clear();
-            ReGridview.Columns.Add("LineNo", "行号");
-            ReGridview.Columns.Add("LexType", "词法信息");
-            ReGridview.Columns.Add("Sem", "语义信息");
-            ReGridview.Columns.Add("Str", "字符串");
-            ReGridview.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            bool flag = false;
-            foreach (SNLToken token in TokenList)
-            {
-                int index = ReGridview.Rows.Add();
-                ReGridview.Rows[index].Cells[0].Value = token.GetLineNo().ToString();
-                ReGridview.Rows[index].Cells[1].Value = token.GetLexType().ToString();
-                ReGridview.Rows[index].Cells[2].Value = token.GetSem();
-                ReGridview.Rows[index].Cells[3].Value = token.GetString();
-                flag = true;
-            }
-            if (flag)
-                ReGridview.Rows[0].Selected = false;
 
+            _LexerReForm.SetTokenList(TokenList);
+            _LexerReForm.Show();
+            
+            bool flag = false;
             DebugGridview.Rows.Clear();
             DebugGridview.Columns.Clear();
             DebugGridview.Columns.Add("Code", "类型");
@@ -322,17 +289,6 @@ namespace RDCompiler
             }
             if (flag)
                 DebugGridview.Rows[0].Selected = false;
-        }
-
-        private void ReGridview_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
-        {
-            using (SolidBrush b = new SolidBrush(ReGridview.RowHeadersDefaultCellStyle.ForeColor))
-            {
-                e.Graphics.DrawString((Convert.ToInt32(e.RowIndex) + 1).ToString(System.Globalization.CultureInfo.CurrentCulture), e.InheritedRowStyle.Font, b, e.RowBounds.Location.X + 10, e.RowBounds.Location.Y + 4);
-            }
-
-            ReGridview.RowsDefaultCellStyle.BackColor = Color.LightGray;
-            ReGridview.AlternatingRowsDefaultCellStyle.BackColor = Color.White;
         }
 
         private void DebugGridview_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
@@ -366,7 +322,7 @@ namespace RDCompiler
             FontDialog changefont = new FontDialog();
             if (changefont.ShowDialog() == DialogResult.OK)
             {
-                ReGridview.Font = changefont.Font;
+                _LexerReForm.SetFont(changefont.Font);
                 DebugGridview.Font = changefont.Font;
             }
         }
@@ -400,16 +356,8 @@ namespace RDCompiler
 
         private void SaveRe_Click(object sender, EventArgs e)
         {
-            int row = ReGridview.Rows.Count;
-            if (row == 0)
-                return;
-            StringBuilder sb = new StringBuilder();
-            sb.Append(",行号,词法信息,语义信息,字符串\r\n");
-            for (int i = 0; i < row; i++) 
-            {
-                sb.Append(i + "," + ReGridview.Rows[i].Cells[0].Value + "," + ReGridview.Rows[i].Cells[1].Value + "," + ReGridview.Rows[i].Cells[2].Value + "," + ReGridview.Rows[i].Cells[3].Value + "\r\n");
-            }
-            File.WriteAllText(_CurrFileDirectory+"\\TokenList.csv", sb.ToString(), Encoding.GetEncoding("gb2312"));
+            StringBuilder sb = _LexerReForm.SaveRe();
+            File.WriteAllText(_CurrFileDirectory + "\\TokenList.csv", sb.ToString(), Encoding.GetEncoding("gb2312"));
             System.Diagnostics.Process p = new System.Diagnostics.Process();
             p.StartInfo.FileName = "cmd.exe";
             p.StartInfo.UseShellExecute = false;
@@ -436,6 +384,13 @@ namespace RDCompiler
             SNLParser snlparser = new SNLParser();
             snlparser.StartParser(TokenList);
             Console.WriteLine(snlparser.GetPointer());
+        }
+
+        private void NotepadForm_Move(object sender, EventArgs e)
+        {
+            int m = Right;
+            int n = Top;
+            _LexerReForm.Location = new Point(m - 16, n);
         }
     }
 }

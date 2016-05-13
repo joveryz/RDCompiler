@@ -64,27 +64,15 @@
             this.LangLabel = new System.Windows.Forms.Label();
             this.LangChoose = new System.Windows.Forms.ComboBox();
             this.InfoPanel = new System.Windows.Forms.Panel();
-            this.CurrTextbox = new RDCompiler.NotepadForm.SynchronizedScrollRichTextBox();
-            this.CurrLineNumber = new RDCompiler.NotepadForm.SynchronizedScrollRichTextBox();
-            this.MainSplitcontainer = new System.Windows.Forms.SplitContainer();
-            this.ReGridview = new System.Windows.Forms.DataGridView();
-            this.LineNoColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MeaningColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.GrammarColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.StringColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OriLabel = new System.Windows.Forms.Label();
             this.MainPanel = new System.Windows.Forms.Panel();
-            this.ResultLabel = new System.Windows.Forms.Label();
             this.DebugPanel = new System.Windows.Forms.Panel();
             this.DebugLabel = new System.Windows.Forms.Label();
             this.DebugGridview = new System.Windows.Forms.DataGridView();
+            this.CurrTextbox = new RDCompiler.NotepadForm.SynchronizedScrollRichTextBox();
+            this.CurrLineNumber = new RDCompiler.NotepadForm.SynchronizedScrollRichTextBox();
             this.MenuList.SuspendLayout();
             this.InfoPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.MainSplitcontainer)).BeginInit();
-            this.MainSplitcontainer.Panel1.SuspendLayout();
-            this.MainSplitcontainer.Panel2.SuspendLayout();
-            this.MainSplitcontainer.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ReGridview)).BeginInit();
             this.MainPanel.SuspendLayout();
             this.DebugPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DebugGridview)).BeginInit();
@@ -410,122 +398,6 @@
             this.InfoPanel.Size = new System.Drawing.Size(877, 33);
             this.InfoPanel.TabIndex = 0;
             // 
-            // CurrTextbox
-            // 
-            this.CurrTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.CurrTextbox.BackColor = System.Drawing.Color.White;
-            this.CurrTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.CurrTextbox.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.CurrTextbox.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CurrTextbox.Location = new System.Drawing.Point(40, 0);
-            this.CurrTextbox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.CurrTextbox.Name = "CurrTextbox";
-            this.CurrTextbox.Size = new System.Drawing.Size(393, 369);
-            this.CurrTextbox.Synchronized = this.CurrLineNumber;
-            this.CurrTextbox.TabIndex = 4;
-            this.CurrTextbox.Text = "";
-            this.CurrTextbox.WordWrap = false;
-            this.CurrTextbox.FontChanged += new System.EventHandler(this.CurrFileTextbox_FontChanged);
-            this.CurrTextbox.TextChanged += new System.EventHandler(this.CurrFileTextbox_TextChanged);
-            // 
-            // CurrLineNumber
-            // 
-            this.CurrLineNumber.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.CurrLineNumber.BackColor = System.Drawing.Color.White;
-            this.CurrLineNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.CurrLineNumber.Enabled = false;
-            this.CurrLineNumber.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CurrLineNumber.Location = new System.Drawing.Point(-1, 0);
-            this.CurrLineNumber.Name = "CurrLineNumber";
-            this.CurrLineNumber.ReadOnly = true;
-            this.CurrLineNumber.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.CurrLineNumber.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.CurrLineNumber.Size = new System.Drawing.Size(41, 369);
-            this.CurrLineNumber.Synchronized = null;
-            this.CurrLineNumber.TabIndex = 5;
-            this.CurrLineNumber.Text = "";
-            this.CurrLineNumber.WordWrap = false;
-            // 
-            // MainSplitcontainer
-            // 
-            this.MainSplitcontainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.MainSplitcontainer.Location = new System.Drawing.Point(0, 20);
-            this.MainSplitcontainer.Name = "MainSplitcontainer";
-            // 
-            // MainSplitcontainer.Panel1
-            // 
-            this.MainSplitcontainer.Panel1.Controls.Add(this.CurrTextbox);
-            this.MainSplitcontainer.Panel1.Controls.Add(this.CurrLineNumber);
-            // 
-            // MainSplitcontainer.Panel2
-            // 
-            this.MainSplitcontainer.Panel2.Controls.Add(this.ReGridview);
-            this.MainSplitcontainer.Size = new System.Drawing.Size(879, 372);
-            this.MainSplitcontainer.SplitterDistance = 432;
-            this.MainSplitcontainer.SplitterWidth = 1;
-            this.MainSplitcontainer.TabIndex = 6;
-            // 
-            // ReGridview
-            // 
-            this.ReGridview.AllowUserToAddRows = false;
-            this.ReGridview.AllowUserToDeleteRows = false;
-            this.ReGridview.AllowUserToResizeColumns = false;
-            this.ReGridview.AllowUserToResizeRows = false;
-            this.ReGridview.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ReGridview.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.ReGridview.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.ReGridview.BackgroundColor = System.Drawing.Color.White;
-            this.ReGridview.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.ReGridview.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.ReGridview.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.LineNoColumn,
-            this.MeaningColumn,
-            this.GrammarColumn,
-            this.StringColumn});
-            this.ReGridview.Location = new System.Drawing.Point(0, 0);
-            this.ReGridview.Name = "ReGridview";
-            this.ReGridview.ReadOnly = true;
-            this.ReGridview.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.ReGridview.RowTemplate.Height = 23;
-            this.ReGridview.Size = new System.Drawing.Size(443, 369);
-            this.ReGridview.TabIndex = 8;
-            this.ReGridview.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.ReGridview_RowPostPaint);
-            // 
-            // LineNoColumn
-            // 
-            this.LineNoColumn.HeaderText = "行号";
-            this.LineNoColumn.Name = "LineNoColumn";
-            this.LineNoColumn.ReadOnly = true;
-            this.LineNoColumn.Width = 57;
-            // 
-            // MeaningColumn
-            // 
-            this.MeaningColumn.HeaderText = "语义信息";
-            this.MeaningColumn.Name = "MeaningColumn";
-            this.MeaningColumn.ReadOnly = true;
-            this.MeaningColumn.Width = 81;
-            // 
-            // GrammarColumn
-            // 
-            this.GrammarColumn.HeaderText = "文法信息";
-            this.GrammarColumn.Name = "GrammarColumn";
-            this.GrammarColumn.ReadOnly = true;
-            this.GrammarColumn.Width = 81;
-            // 
-            // StringColumn
-            // 
-            this.StringColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.StringColumn.HeaderText = "字符串";
-            this.StringColumn.Name = "StringColumn";
-            this.StringColumn.ReadOnly = true;
-            // 
             // OriLabel
             // 
             this.OriLabel.AutoSize = true;
@@ -541,23 +413,13 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.MainPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.MainPanel.Controls.Add(this.ResultLabel);
-            this.MainPanel.Controls.Add(this.MainSplitcontainer);
+            this.MainPanel.Controls.Add(this.CurrTextbox);
+            this.MainPanel.Controls.Add(this.CurrLineNumber);
             this.MainPanel.Controls.Add(this.OriLabel);
             this.MainPanel.Location = new System.Drawing.Point(0, 59);
             this.MainPanel.Name = "MainPanel";
             this.MainPanel.Size = new System.Drawing.Size(877, 390);
             this.MainPanel.TabIndex = 10;
-            // 
-            // ResultLabel
-            // 
-            this.ResultLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ResultLabel.AutoSize = true;
-            this.ResultLabel.Location = new System.Drawing.Point(816, 2);
-            this.ResultLabel.Name = "ResultLabel";
-            this.ResultLabel.Size = new System.Drawing.Size(56, 17);
-            this.ResultLabel.TabIndex = 9;
-            this.ResultLabel.Text = "结果窗口";
             // 
             // DebugPanel
             // 
@@ -603,6 +465,43 @@
             this.DebugGridview.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DebugGridview_CellDoubleClick);
             this.DebugGridview.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.DebugGridview_RowPostPaint);
             // 
+            // CurrTextbox
+            // 
+            this.CurrTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.CurrTextbox.BackColor = System.Drawing.Color.White;
+            this.CurrTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.CurrTextbox.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.CurrTextbox.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CurrTextbox.Location = new System.Drawing.Point(40, 20);
+            this.CurrTextbox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.CurrTextbox.Name = "CurrTextbox";
+            this.CurrTextbox.Size = new System.Drawing.Size(836, 369);
+            this.CurrTextbox.Synchronized = this.CurrLineNumber;
+            this.CurrTextbox.TabIndex = 6;
+            this.CurrTextbox.Text = "";
+            this.CurrTextbox.WordWrap = false;
+            // 
+            // CurrLineNumber
+            // 
+            this.CurrLineNumber.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.CurrLineNumber.BackColor = System.Drawing.Color.White;
+            this.CurrLineNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.CurrLineNumber.Enabled = false;
+            this.CurrLineNumber.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CurrLineNumber.Location = new System.Drawing.Point(0, 20);
+            this.CurrLineNumber.Name = "CurrLineNumber";
+            this.CurrLineNumber.ReadOnly = true;
+            this.CurrLineNumber.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.CurrLineNumber.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.CurrLineNumber.Size = new System.Drawing.Size(41, 369);
+            this.CurrLineNumber.Synchronized = null;
+            this.CurrLineNumber.TabIndex = 7;
+            this.CurrLineNumber.Text = "";
+            this.CurrLineNumber.WordWrap = false;
+            // 
             // NotepadForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -620,15 +519,11 @@
             this.Name = "NotepadForm";
             this.Text = "无标题 - RDCompiler";
             this.Load += new System.EventHandler(this.NotepadForm_Load);
+            this.Move += new System.EventHandler(this.NotepadForm_Move);
             this.MenuList.ResumeLayout(false);
             this.MenuList.PerformLayout();
             this.InfoPanel.ResumeLayout(false);
             this.InfoPanel.PerformLayout();
-            this.MainSplitcontainer.Panel1.ResumeLayout(false);
-            this.MainSplitcontainer.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.MainSplitcontainer)).EndInit();
-            this.MainSplitcontainer.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.ReGridview)).EndInit();
             this.MainPanel.ResumeLayout(false);
             this.MainPanel.PerformLayout();
             this.DebugPanel.ResumeLayout(false);
@@ -664,15 +559,10 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem SelectAll;
         private System.Windows.Forms.ToolStripMenuItem TimeDate;
-        private SynchronizedScrollRichTextBox CurrLineNumber;
-        private System.Windows.Forms.SplitContainer MainSplitcontainer;
         private System.Windows.Forms.Label OriLabel;
         private System.Windows.Forms.Panel MainPanel;
-        private System.Windows.Forms.Label ResultLabel;
         private System.Windows.Forms.Panel DebugPanel;
-        private SynchronizedScrollRichTextBox CurrTextbox;
         private System.Windows.Forms.ToolStripMenuItem Lexer;
-        private System.Windows.Forms.DataGridView ReGridview;
         private System.Windows.Forms.DataGridView DebugGridview;
         private System.Windows.Forms.Label DebugLabel;
         private System.Windows.Forms.ToolStripMenuItem FontMenuItem;
@@ -683,11 +573,9 @@
         private System.Windows.Forms.ToolStripMenuItem NotepadAbout;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem SaveLexerRe;
-        private System.Windows.Forms.DataGridViewTextBoxColumn LineNoColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn MeaningColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn GrammarColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn StringColumn;
         private System.Windows.Forms.ToolStripMenuItem Parser;
         private System.Windows.Forms.ToolStripMenuItem SaveParserRe;
+        private SynchronizedScrollRichTextBox CurrTextbox;
+        private SynchronizedScrollRichTextBox CurrLineNumber;
     }
 }

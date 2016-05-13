@@ -7,7 +7,7 @@ using RDCompiler.Language;
 
 namespace RDCompiler.Lexical_Analyzer
 {
-    class SNLToken
+    public class SNLToken
     {
         private int _LineNo;
         private SNLLexType _Lex;

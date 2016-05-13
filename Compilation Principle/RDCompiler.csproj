@@ -69,6 +69,12 @@
     <Compile Include="Notepad\NotepadForm.Designer.cs">
       <DependentUpon>NotepadForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Notepad\NotepadLexerResult.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Notepad\NotepadLexerResult.Designer.cs">
+      <DependentUpon>NotepadLexerResult.cs</DependentUpon>
+    </Compile>
     <Compile Include="Notepad\NotepadWelcome.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -84,6 +90,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Notepad\NotepadForm.resx">
       <DependentUpon>NotepadForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Notepad\NotepadLexerResult.resx">
+      <DependentUpon>NotepadLexerResult.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Notepad\NotepadWelcome.resx">
       <DependentUpon>NotepadWelcome.cs</DependentUpon>
