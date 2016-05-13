@@ -9,89 +9,60 @@ namespace RDCompiler.Syntactic_Analyzer
 {
     class SNLTreeNode
     {
+        struct Kind
+        {
+            public SNLTreeNodeTypeStmt _Stmt;
+            public SNLTreeNodeTypeDec _Dec;
+            public SNLTreeNodeTypeExp _Exp;
+        }
+
         struct ArrayAttr
         {
-            private int _Low;
-            private int _Up;
-            private SNLTreeNodeTypeDecK _ChildType;
-
-            public void SetArrayAttr(int Low, int Up, SNLTreeNodeTypeDecK ChildType)
-            {
-                _Low = Low;
-                _Up = Up;
-                _ChildType = ChildType;
-            }
+            public int _Low;
+            public int _Up;
+            public SNLTreeNodeTypeDec _ChildType;
         }
 
         struct ProcAttr
         {
-            private SNLProcParamtType _ParamtType;
-
-
-            public void SetProcAttr(SNLProcParamtType ParamtType)
-            {
-                _ParamtType = ParamtType;
-            }
+            public SNLProcParamtType _ParamtType;
         }
 
         struct ExpAttr
         {
-            private SNLExpAttrOPType _OP;
-            private int _Val;
-            private SNLExpAttrVarKindType _VarKind;
-            private SNLExpAttrType _Type;
-
-            public void SetExpAttr(SNLExpAttrOPType OP, int Val, SNLExpAttrVarKindType VarKind, SNLExpAttrType Type)
-            {
-                _OP = OP;
-                _Val = Val;
-                _VarKind = VarKind;
-                _Type = Type;
-            }
+            public SNLExpAttrOPType _OP;
+            public int _Val;
+            public SNLExpAttrVarKindType _VarKind;
+            public SNLExpAttrType _Type;
         }
 
         struct Attr
         {
-            //ArrayAttr _ArrayAttr;
-            //ProcAttr _ProcAttr;
-            //ExpAttr _ExpAttr;
+            public bool Array;
+            public ArrayAttr _ArrayAttr;
+
+            public bool Proc;
+            public ProcAttr _ProcAttr;
+
+            public bool Exp;
+            public ExpAttr _ExpAttr;
+            
+            public string _TypeName;
         }
 
-        private List<SNLTreeNode> _Child = new List<SNLTreeNode>();
-        private SNLTreeNode _Sibling;
+        private List<SNLTreeNode> _Child=new List<SNLTreeNode>();
+        private SNLTreeNode _Sibling = new SNLTreeNode();
         private int _LineNo = -1;
         private SNLTreeNodeType _NodeKind = new SNLTreeNodeType();
         
-        private object _Kind;
-        //private SNLTreeNodeTypeDecK _KindDec;
-        //private SNLTreeNodeTypeExpK _KingExp;
-        //private SNLTreeNodeTypeStmtK _StmtK;
+        private Kind _Kind;
 
         private int _IDNum = 0;
         private List<string> _Name = new List<string>();
         //private List<int> _Table = new List<int>();语义分析用
 
-        private string _TypeName;
 
-        private SNLAttrType _AttrType = new SNLAttrType();
-        private object _Attr;
-
-        public SNLTreeNode()
-        {
-
-        }
-
-        public SNLTreeNode(int LineNo, SNLTreeNodeType NodeKind, SNLAttrType AttrType)
-        {
-            _LineNo = LineNo;
-            _NodeKind = NodeKind;
-            _AttrType = AttrType;
-        }
-
-        public void SetSibling(SNLTreeNode Sibling)
-        {
-            _Sibling = Sibling;
-        }
+        private Attr _Attr;
 
         public SNLTreeNode AddChild(SNLTreeNode Child)
         {
@@ -99,52 +70,107 @@ namespace RDCompiler.Syntactic_Analyzer
             return Child;
         }
 
-        public int GetChildCount()
+        public void SetSibling(SNLTreeNode Sibling)
         {
-            return _Child.Count;        }
+            _Sibling = Sibling;
+        }
 
-        public void AddID(string Name, int Table)
+        public void SetNodeKind(SNLTreeNodeType NodeKind)
+        {
+            _NodeKind = NodeKind;
+        }
+
+        public void SetLineNo(int Line)
+        {
+            _LineNo = Line;
+        }
+        
+        public void SetKindStmt(SNLTreeNodeTypeStmt Stmt)
+        {
+            _Kind._Stmt = Stmt;
+        }
+
+        public void SetKindDec(SNLTreeNodeTypeDec Dec)
+        {
+            _Kind._Dec = Dec;
+        }
+
+        public SNLTreeNodeTypeDec GetKindDec()
+        {
+            return _Kind._Dec;
+        }
+        public void SetKindExp(SNLTreeNodeTypeExp Exp)
+        {
+            _Kind._Exp = Exp;
+        }
+
+        public void AddName(string Name)
         {
             _IDNum++;
             _Name.Add(Name);
         }
 
-        public void SetTypeName(string TypeName)
+        public void SetAttrTypeName(string TypeName)
         {
-            _TypeName = TypeName;
+            _Attr._TypeName = TypeName;
+        }
+        
+        public void SetAttrArray(int Low, int Up)
+        {
+            _Attr._ArrayAttr._Low = Low;
+            _Attr._ArrayAttr._Up = Up;
+            _Attr.Array = true;
+            _Attr.Proc = false;
+            _Attr.Exp = false;
         }
 
-        public void SetKind()
+        public void SetAttrArray(SNLTreeNodeTypeDec ChildType)
         {
-            switch (_NodeKind)
-            {
-                case SNLTreeNodeType.DecK:
-                    _Kind = new SNLTreeNodeTypeDecK();
-                    break;
-                case SNLTreeNodeType.StmtK:
-                    _Kind = new SNLTreeNodeTypeStmtK();
-                    break;
-                case SNLTreeNodeType.ExpK:
-                    _Kind = new SNLTreeNodeTypeExpK();
-                    break;
-            }
+            _Attr._ArrayAttr._ChildType = ChildType;
+            _Attr.Array = true;
+            _Attr.Proc = false;
+            _Attr.Exp = false;
         }
 
-        public void SetAttr()
+        public void SetAttrProc(SNLProcParamtType ParamtType)
         {
-            switch(_AttrType)
-            {
-                case SNLAttrType.ArrayAttr:
-                    _Attr = new ArrayAttr();
-                    break;
-                case SNLAttrType.ProcAttr:
-                    _Attr = new ProcAttr();
-                    break;
-                case SNLAttrType.ExpAttr:
-                    _Attr = new ExpAttr();
-                    break;
-            }
+            _Attr._ProcAttr._ParamtType = ParamtType;
+            _Attr.Array = false;
+            _Attr.Proc = true;
+            _Attr.Exp = false;
         }
 
+        public void SetAttrExp(SNLExpAttrOPType OP)
+        {
+            _Attr._ExpAttr._OP = OP;
+            _Attr.Array = false;
+            _Attr.Proc = false;
+            _Attr.Exp = true;
+        }
+
+        public void SetAttrExp(int Val)
+        {
+            _Attr._ExpAttr._Val = Val;
+            _Attr.Array = false;
+            _Attr.Proc = false;
+            _Attr.Exp = true;
+        }
+
+        public void SetAttrExp(SNLExpAttrVarKindType VarKind)
+        {
+            _Attr._ExpAttr._VarKind = VarKind;
+            _Attr.Array = false;
+            _Attr.Proc = false;
+            _Attr.Exp = true;
+        }
+
+        public void SetAttrExp(SNLExpAttrType Type)
+        {
+            _Attr._ExpAttr._Type = Type;
+            _Attr.Array = false;
+            _Attr.Proc = false;
+            _Attr.Exp = true;
+        }
+        
     }
 }

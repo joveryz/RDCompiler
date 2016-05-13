@@ -10,11 +10,11 @@ namespace RDCompiler.Language
 
     public enum SNLTreeNodeType { ProK, PheadK, TypeK, VarK, ProcDecK, StmLK, DecK, StmtK, ExpK };
 
-    public enum SNLTreeNodeTypeDecK { ArrayK, CharK, IntegerK, RecordK, IdK };
+    public enum SNLTreeNodeTypeDec { NULL, ArrayK, CharK, IntegerK, RecordK, IdK };
 
-    public enum SNLTreeNodeTypeStmtK { IfK, WhileK, AssignK, ReadK, WriteK, CallK, ReturnK };
+    public enum SNLTreeNodeTypeStmt { NULL, IfK, WhileK, AssignK, ReadK, WriteK, CallK, ReturnK };
 
-    public enum SNLTreeNodeTypeExpK { OpK, ConstK, IdK };
+    public enum SNLTreeNodeTypeExp { NULL, OpK, ConstK, IdK };
 
     public enum SNLAttrType { NULL, ArrayAttr, ProcAttr, ExpAttr };
 
