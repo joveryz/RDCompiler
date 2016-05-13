@@ -51,8 +51,10 @@
             this.ChangeFont = new System.Windows.Forms.ToolStripMenuItem();
             this.CompileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Lexer = new System.Windows.Forms.ToolStripMenuItem();
+            this.Parser = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.SaveLexerRe = new System.Windows.Forms.ToolStripMenuItem();
+            this.SaveParserRe = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SeeHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
@@ -76,8 +78,6 @@
             this.DebugPanel = new System.Windows.Forms.Panel();
             this.DebugLabel = new System.Windows.Forms.Label();
             this.DebugGridview = new System.Windows.Forms.DataGridView();
-            this.Parser = new System.Windows.Forms.ToolStripMenuItem();
-            this.SaveParserRe = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuList.SuspendLayout();
             this.InfoPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainSplitcontainer)).BeginInit();
@@ -279,6 +279,14 @@
             this.Lexer.Text = "词法分析器(L)";
             this.Lexer.Click += new System.EventHandler(this.Lexer_Click);
             // 
+            // Parser
+            // 
+            this.Parser.Name = "Parser";
+            this.Parser.ShortcutKeys = System.Windows.Forms.Keys.F7;
+            this.Parser.Size = new System.Drawing.Size(238, 22);
+            this.Parser.Text = "语法分析器(P)";
+            this.Parser.Click += new System.EventHandler(this.Parser_Click);
+            // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
@@ -291,6 +299,13 @@
             this.SaveLexerRe.Size = new System.Drawing.Size(238, 22);
             this.SaveLexerRe.Text = "保存词法分析结果(C)";
             this.SaveLexerRe.Click += new System.EventHandler(this.SaveRe_Click);
+            // 
+            // SaveParserRe
+            // 
+            this.SaveParserRe.Name = "SaveParserRe";
+            this.SaveParserRe.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F7)));
+            this.SaveParserRe.Size = new System.Drawing.Size(238, 22);
+            this.SaveParserRe.Text = "保存语法分析结果(Y)";
             // 
             // HelpMenuItem
             // 
@@ -479,7 +494,7 @@
             this.ReGridview.ReadOnly = true;
             this.ReGridview.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.ReGridview.RowTemplate.Height = 23;
-            this.ReGridview.Size = new System.Drawing.Size(449, 369);
+            this.ReGridview.Size = new System.Drawing.Size(443, 369);
             this.ReGridview.TabIndex = 8;
             this.ReGridview.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.ReGridview_RowPostPaint);
             // 
@@ -587,20 +602,6 @@
             this.DebugGridview.TabIndex = 1;
             this.DebugGridview.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DebugGridview_CellDoubleClick);
             this.DebugGridview.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.DebugGridview_RowPostPaint);
-            // 
-            // Parser
-            // 
-            this.Parser.Name = "Parser";
-            this.Parser.ShortcutKeys = System.Windows.Forms.Keys.F7;
-            this.Parser.Size = new System.Drawing.Size(238, 22);
-            this.Parser.Text = "语法分析器(P)";
-            // 
-            // SaveParserRe
-            // 
-            this.SaveParserRe.Name = "SaveParserRe";
-            this.SaveParserRe.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F7)));
-            this.SaveParserRe.Size = new System.Drawing.Size(238, 22);
-            this.SaveParserRe.Text = "保存语法分析结果(Y)";
             // 
             // NotepadForm
             // 

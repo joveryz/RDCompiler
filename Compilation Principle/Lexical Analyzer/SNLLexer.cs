@@ -70,7 +70,10 @@ namespace RDCompiler.Lexical_Analyzer
                 else if (Content[_Pointer] == '.')
                 {
                     if (_Pointer + 1 <= Content.Length - 1 && Content[++_Pointer] == '.')
-                        _TokenList.Add(new SNLToken(_LineNo, SNLLexType.UNDERANGE, "无语义信息", ".."));
+                    {
+                        _TokenList.Add(new SNLToken(_LineNo, SNLLexType.UNDERANGE, "无语义信息", "."));
+                        _TokenList.Add(new SNLToken(_LineNo, SNLLexType.UNDERANGE, "无语义信息", "."));
+                    }
                     else
                     {
                         _Pointer--;

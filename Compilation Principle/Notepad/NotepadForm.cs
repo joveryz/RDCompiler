@@ -12,6 +12,7 @@ using System.Drawing.Printing;
 using System.Collections;
 using System.Text.RegularExpressions;
 using RDCompiler.Lexical_Analyzer;
+using RDCompiler.Syntactic_Analyzer;
 using RDCompiler.Notepad;
 
 namespace RDCompiler
@@ -418,6 +419,23 @@ namespace RDCompiler
             p.Start();
             p.StandardInput.WriteLine(_CurrFileDirectory + "\\TokenList.csv");
 
+        }
+
+        private void Parser_Click(object sender, EventArgs e)
+        {
+            if (LangChoose.Text != "SNL")
+            {
+                MessageBox.Show("请选择编程语言！", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            SNLLexer snllexer = new SNLLexer();
+            snllexer.StartLexer(CurrTextbox.Text);
+            List<SNLToken> TokenList = snllexer.GetTokenList();
+            List<List<string>> DebugList = snllexer.GetDebugList();
+
+            SNLParser snlparser = new SNLParser();
+            snlparser.StartParser(TokenList);
+            Console.WriteLine(snlparser.GetPointer());
         }
     }
 }

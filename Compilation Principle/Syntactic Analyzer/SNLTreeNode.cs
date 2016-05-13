@@ -57,10 +57,10 @@ namespace RDCompiler.Syntactic_Analyzer
             //ExpAttr _ExpAttr;
         }
 
-        private List<SNLTreeNode> _Child;
+        private List<SNLTreeNode> _Child = new List<SNLTreeNode>();
         private SNLTreeNode _Sibling;
         private int _LineNo = -1;
-        private SNLTreeNodeType _NodeKind;
+        private SNLTreeNodeType _NodeKind = new SNLTreeNodeType();
         
         private object _Kind;
         //private SNLTreeNodeTypeDecK _KindDec;
@@ -68,20 +68,24 @@ namespace RDCompiler.Syntactic_Analyzer
         //private SNLTreeNodeTypeStmtK _StmtK;
 
         private int _IDNum = 0;
-        private List<string> _Name;
-        private List<int> _Table;
+        private List<string> _Name = new List<string>();
+        private List<int> _Table = new List<int>();
 
         private string _TypeName;
 
-        private SNLAttrType _AttrType;
+        private SNLAttrType _AttrType = new SNLAttrType();
         private object _Attr;
 
-        public SNLTreeNode(SNLTreeNode Sibling, int LineNo, SNLTreeNodeType NodeKind, SNLAttrType AttrType)
+        public void SetTreeNode(int LineNo, SNLTreeNodeType NodeKind, SNLAttrType AttrType)
         {
-            _Sibling = Sibling;
             _LineNo = LineNo;
             _NodeKind = NodeKind;
             _AttrType = AttrType;
+        }
+
+        public void SetSibling(SNLTreeNode Sibling)
+        {
+            _Sibling = Sibling;
         }
 
         public void AddChild(SNLTreeNode Child)
