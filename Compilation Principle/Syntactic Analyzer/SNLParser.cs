@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using RDCompiler.Language;
 using RDCompiler.Lexical_Analyzer;
+using System.Windows.Forms;
 
 
 
@@ -14,23 +15,25 @@ namespace RDCompiler.Syntactic_Analyzer
     {
         private List<SNLToken> _TokenList = new List<SNLToken>();
         private SNLTreeNode _Head = new SNLTreeNode();
+        private SNLTreeNode _CurrFaNode = new SNLTreeNode();
         private SNLTreeNode _CurrNode = new SNLTreeNode();
         private int _Pointer = -1;
 
         public bool StartParser(List<SNLToken> TokenList)
         {
             _TokenList = TokenList;
-            SNLTreeNode NewNode = new SNLTreeNode();
-            NewNode.SetTreeNode(_TokenList[_Pointer + 1].GetLineNo(), SNLTreeNodeType.ProK, SNLAttrType.NULL);
-            _Head = NewNode;
+
+            SNLTreeNode _Head = new SNLTreeNode(_TokenList[_Pointer + 1].GetLineNo(), SNLTreeNodeType.ProK, SNLAttrType.NULL);
             _CurrNode = _Head;
-            _TokenList = TokenList;
+            _CurrFaNode = null;
+
             if (!MatchProgramHead())
                 return false;
             if (!MatchDeclarePart())
                 return false;
             if (!MatchProgramBody())
                 return false;
+
             if (_TokenList[++_Pointer].GetLexType() != SNLLexType.ENDFILE)
                 return false;
             return true;
@@ -38,6 +41,7 @@ namespace RDCompiler.Syntactic_Analyzer
 
         public int GetPointer()
         {
+            MessageBox.Show("截止至Token" + _Pointer.ToString() + "之前没有错误", "Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
             return _Pointer;
         }
 
@@ -54,14 +58,10 @@ namespace RDCompiler.Syntactic_Analyzer
         {
             if (_Pointer +1 < _TokenList.Count && _TokenList[++_Pointer].GetLexType() == SNLLexType.PROGRAM)
             {
-                SNLTreeNode Child = new SNLTreeNode();
-                Child.SetTreeNode(_TokenList[_Pointer].GetLineNo(), SNLTreeNodeType.PheadK, SNLAttrType.NULL);
-                _Head.AddChild(Child);
-                Child.SetSibling(_CurrNode)
-;               _CurrNode = Child;
+                _CurrFaNode = _Head;
+                _CurrNode = _CurrFaNode.AddChild(new SNLTreeNode(_TokenList[_Pointer].GetLineNo(), SNLTreeNodeType.PheadK, SNLAttrType.NULL));
                 return MatchProgramName();
             }
-            Console.WriteLine(_TokenList[_Pointer].GetLexType().ToString());
             return false;
         }
 
@@ -109,6 +109,8 @@ namespace RDCompiler.Syntactic_Analyzer
             }
             else
             {
+                SNLTreeNode TypeDec = new SNLTreeNode(_TokenList[_Pointer].GetLineNo(), SNLTreeNodeType.TypeK, SNLAttrType.NULL);
+                _CurrNode = _CurrFaNode.AddChild(TypeDec);
                 if (!MatchTypeDecList())
                 {
                     _Pointer--;
@@ -153,7 +155,10 @@ namespace RDCompiler.Syntactic_Analyzer
         private bool MatchTypeId()
         {
             if (_TokenList[++_Pointer].GetLexType() == SNLLexType.ID)
+            {
+
                 return true;
+            }
             else
             {
                 _Pointer--;
@@ -192,8 +197,6 @@ namespace RDCompiler.Syntactic_Analyzer
             }
             return false;
         }
-
-
 
         private bool MatchStructureType()
         {
@@ -379,6 +382,8 @@ namespace RDCompiler.Syntactic_Analyzer
                 _Pointer--;
                 return false;
             }
+
+
             if (MatchVarDecList())
                 return true;
             else
@@ -1173,9 +1178,6 @@ namespace RDCompiler.Syntactic_Analyzer
                 _Pointer--;
             return false;
         }
-
-
-
-
+        
     }
 }

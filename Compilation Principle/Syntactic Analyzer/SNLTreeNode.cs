@@ -13,9 +13,9 @@ namespace RDCompiler.Syntactic_Analyzer
         {
             private int _Low;
             private int _Up;
-            private SNLArrayChildType _ChildType;
+            private SNLTreeNodeTypeDecK _ChildType;
 
-            public void SetArrayAttr(int Low, int Up, SNLArrayChildType ChildType)
+            public void SetArrayAttr(int Low, int Up, SNLTreeNodeTypeDecK ChildType)
             {
                 _Low = Low;
                 _Up = Up;
@@ -69,14 +69,19 @@ namespace RDCompiler.Syntactic_Analyzer
 
         private int _IDNum = 0;
         private List<string> _Name = new List<string>();
-        private List<int> _Table = new List<int>();
+        //private List<int> _Table = new List<int>();语义分析用
 
         private string _TypeName;
 
         private SNLAttrType _AttrType = new SNLAttrType();
         private object _Attr;
 
-        public void SetTreeNode(int LineNo, SNLTreeNodeType NodeKind, SNLAttrType AttrType)
+        public SNLTreeNode()
+        {
+
+        }
+
+        public SNLTreeNode(int LineNo, SNLTreeNodeType NodeKind, SNLAttrType AttrType)
         {
             _LineNo = LineNo;
             _NodeKind = NodeKind;
@@ -88,16 +93,20 @@ namespace RDCompiler.Syntactic_Analyzer
             _Sibling = Sibling;
         }
 
-        public void AddChild(SNLTreeNode Child)
+        public SNLTreeNode AddChild(SNLTreeNode Child)
         {
             _Child.Add(Child);
+            return Child;
         }
+
+        public int GetChildCount()
+        {
+            return _Child.Count;        }
 
         public void AddID(string Name, int Table)
         {
             _IDNum++;
             _Name.Add(Name);
-            _Table.Add(Table);
         }
 
         public void SetTypeName(string TypeName)

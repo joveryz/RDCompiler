@@ -18,8 +18,6 @@ namespace RDCompiler.Language
 
     public enum SNLAttrType { NULL, ArrayAttr, ProcAttr, ExpAttr };
 
-    public enum SNLArrayChildType { INTEGER, CHARC };
-
     public enum SNLProcParamtType { VALPARAMTYPE, VARPARAMTYPE }
 
     public enum SNLExpAttrOPType { LT, EQ, PLUS, MINUS, TIMES, OVER };
