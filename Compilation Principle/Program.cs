@@ -16,7 +16,7 @@ namespace RDCompiler
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new NotepadForm());
+            Application.Run(new Notepad.RibbonForm1());
         }
     }
 }
