@@ -75,9 +75,19 @@ namespace RDCompiler.Syntactic_Analyzer
             return _Child[index];
         }
 
+        public int GetChildCount()
+        {
+            return _Child.Count;
+        }
+
         public void SetSibling(SNLTreeNode Sibling)
         {
             _Sibling = Sibling;
+        }
+
+        public SNLTreeNode GetSibling()
+        {
+            return _Sibling;
         }
 
         public void SetNodeKind(SNLTreeNodeType NodeKind)
@@ -85,14 +95,29 @@ namespace RDCompiler.Syntactic_Analyzer
             _NodeKind = NodeKind;
         }
 
+        public SNLTreeNodeType GetNodeKind()
+        {
+            return _NodeKind;
+        }
+
         public void SetLineNo(int Line)
         {
             _LineNo = Line;
+        }
+
+        public int GetLineNo()
+        {
+            return _LineNo;
         }
         
         public void SetKindStmt(SNLTreeNodeTypeStmt Stmt)
         {
             _Kind._Stmt = Stmt;
+        }
+
+        public SNLTreeNodeTypeStmt GetKindStmt()
+        {
+            return _Kind._Stmt;
         }
 
         public void SetKindDec(SNLTreeNodeTypeDec Dec)
@@ -110,15 +135,35 @@ namespace RDCompiler.Syntactic_Analyzer
             _Kind._Exp = Exp;
         }
 
+        public SNLTreeNodeTypeExp GetKindExp()
+        {
+            return _Kind._Exp;
+        }
+
+        public int GetIDNum()
+        {
+            return _IDNum;
+        }
+
         public void AddName(string Name)
         {
             _IDNum++;
             _Name.Add(Name);
         }
 
+        public string GetName(int index)
+        {
+            return _Name[index];
+        }
+        
         public void SetAttrTypeName(string TypeName)
         {
             _Attr._TypeName = TypeName;
+        }
+
+        public string GetAttrTypeName()
+        {
+            return _Attr._TypeName;
         }
         
         public void SetAttrArray(int Low, int Up)
@@ -130,12 +175,27 @@ namespace RDCompiler.Syntactic_Analyzer
             _Attr.Exp = false;
         }
 
+        public int GetAttrArrayLow()
+        {
+            return _Attr._ArrayAttr._Low;
+        }
+
+        public int GetAttrArrayUp()
+        {
+            return _Attr._ArrayAttr._Up;
+        }
+
         public void SetAttrArray(SNLTreeNodeTypeDec ChildType)
         {
             _Attr._ArrayAttr._ChildType = ChildType;
             _Attr.Array = true;
             _Attr.Proc = false;
             _Attr.Exp = false;
+        }
+
+        public SNLTreeNodeTypeDec GetAttrArrayChildType()
+        {
+            return _Attr._ArrayAttr._ChildType;
         }
 
         public void SetAttrProc(SNLProcParamtType ParamtType)
@@ -146,12 +206,22 @@ namespace RDCompiler.Syntactic_Analyzer
             _Attr.Exp = false;
         }
 
+        public SNLProcParamtType GetAttrProcParamtType( )
+        {
+            return _Attr._ProcAttr._ParamtType;
+        }
+
         public void SetAttrExp(SNLLexType OP)
         {
             _Attr._ExpAttr._OP = OP;
             _Attr.Array = false;
             _Attr.Proc = false;
             _Attr.Exp = true;
+        }
+
+        public SNLLexType GetAttrExpOP( )
+        {
+            return _Attr._ExpAttr._OP;
         }
 
         public void SetAttrExp(int Val)
@@ -162,6 +232,12 @@ namespace RDCompiler.Syntactic_Analyzer
             _Attr.Exp = true;
         }
 
+        public int GetAttrExpVal()
+        {
+            return _Attr._ExpAttr._Val;
+            
+        }
+
         public void SetAttrExp(SNLExpAttrVarKindType VarKind)
         {
             _Attr._ExpAttr._VarKind = VarKind;
@@ -170,13 +246,34 @@ namespace RDCompiler.Syntactic_Analyzer
             _Attr.Exp = true;
         }
 
+        public SNLExpAttrVarKindType GetAttrExpVarKind( )
+        {
+            return _Attr._ExpAttr._VarKind;
+        }
+
         public void SetAttrExp(SNLExpAttrType Type)
         {
-            _Attr._ExpAttr._Type = Type;
+            _Attr._ExpAttr._Type=Type;
             _Attr.Array = false;
             _Attr.Proc = false;
             _Attr.Exp = true;
         }
+
+        public SNLExpAttrType GetAttrExpType( )
+        {
+            return _Attr._ExpAttr._Type;
+        }
         
+        public string GetAttrType()
+        {
+            if (_Attr.Array)
+                return "ArrayAttr";
+            else if (_Attr.Proc)
+                return "ProcAttr";
+            else if (_Attr.Exp)
+                return "ExpAttr";
+            else
+                return "NULL";
+        }
     }
 }

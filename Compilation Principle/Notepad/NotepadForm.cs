@@ -20,6 +20,7 @@ namespace RDCompiler
     public partial class NotepadForm : Form
     {
         NotepadLexerResult _LexerReForm = new NotepadLexerResult();
+        NotepadParserResult _ParserReForm = new NotepadParserResult();
         private bool _IsDirty = false;
         private string _CurrFileContent = "";
         private string _CurrFileName = "";
@@ -253,6 +254,7 @@ namespace RDCompiler
             List<List<string>> DebugList = snllexer.GetDebugList();
 
             _LexerReForm.SetTokenList(TokenList);
+            _ParserReForm.Hide();
             _LexerReForm.Show();
             
             bool flag = false;
@@ -371,13 +373,15 @@ namespace RDCompiler
 
             SNLParser snlparser = new SNLParser();
             snlparser.StartParser(TokenList);
-            SNLTreeNode Root = snlparser.GetRoot();
+            DataTable dt = snlparser.GetDataTable();
+            _ParserReForm.SetDataSource(dt);
             List<string> DebugList = snlparser.GetDebugList();
-
             foreach(string s in DebugList)
             {
                 Console.WriteLine(s);
             }
+            _LexerReForm.Hide();
+            _ParserReForm.Show();
         }
 
         private void NotepadForm_Move(object sender, EventArgs e)
@@ -385,6 +389,7 @@ namespace RDCompiler
             int m = Right;
             int n = Top;
             _LexerReForm.Location = new Point(m - 16, n);
+            _ParserReForm.Location= new Point(m - 16, n);
         }
 
         private void CurrTextbox_TextChanged(object sender, EventArgs e)

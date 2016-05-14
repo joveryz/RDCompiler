@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 using RDCompiler.Language;
 using RDCompiler.Lexical_Analyzer;
 using System.Windows.Forms;
-
-
+using System.Data;
 
 namespace RDCompiler.Syntactic_Analyzer
 {
@@ -18,12 +17,24 @@ namespace RDCompiler.Syntactic_Analyzer
         private SNLTreeNode _Root = new SNLTreeNode();
         private SNLTreeNode _CurrFaNode = new SNLTreeNode();
         private SNLTreeNode _CurrNode = new SNLTreeNode();
+        private DataTable _DataTable = new DataTable();
         private int _Pointer = -1;
+        private int _Index = 0;
         private string TempName;
+        int indentno = 0;
+        bool Error = false;
+
         public void StartParser(List<SNLToken> TokenList)
         {
             _TokenList = TokenList;
             _Root = parse();
+            InitDataTable();
+            FillDataTable(_Root, 0);
+            for (int i = 0; i < _DataTable.Columns.Count; i++)
+            {
+                _DataTable.Columns[i].ReadOnly = true;
+            }
+
         }
 
         public int GetPointer()
@@ -42,12 +53,541 @@ namespace RDCompiler.Syntactic_Analyzer
             return _DebugList;
         }
 
+        public DataTable GetDataTable()
+        {
+            return _DataTable;
+        }
+
         public SNLTreeNode SNLTree()
         {
             return _Root;
         }
 
-        
+        public void InitDataTable()
+        {
+
+            _DataTable.Columns.Add("NodeKind", typeof(string));
+            _DataTable.Columns.Add("ID", typeof(string));
+            _DataTable.Columns.Add("ParentID", typeof(string));
+            _DataTable.Columns.Add("Child", typeof(string));
+            _DataTable.Columns.Add("Sibling", typeof(string));
+            _DataTable.Columns.Add("LineNo", typeof(string));
+            _DataTable.Columns.Add("K_Dec", typeof(string));
+            _DataTable.Columns.Add("K_Stmt", typeof(string));
+            _DataTable.Columns.Add("K_Exp", typeof(string));
+            _DataTable.Columns.Add("ID_Num", typeof(string));
+            _DataTable.Columns.Add("Name", typeof(string));
+            _DataTable.Columns.Add("Table", typeof(string));
+            _DataTable.Columns.Add("Attr", typeof(string));
+            _DataTable.Columns.Add("TypeName", typeof(string));
+            _DataTable.Columns.Add("AA_Low", typeof(string));
+            _DataTable.Columns.Add("AA_Up", typeof(string));
+            _DataTable.Columns.Add("AA_ChildType", typeof(string));
+            _DataTable.Columns.Add("PA_Paramt", typeof(string));
+            _DataTable.Columns.Add("EA_Op", typeof(string));
+            _DataTable.Columns.Add("EA_Val", typeof(string));
+            _DataTable.Columns.Add("EA_VarKind", typeof(string));
+            _DataTable.Columns.Add("EA_Type", typeof(string));
+            _DataTable.Columns.Add("Priview", typeof(string));
+        }
+
+        public void FillDataTable(SNLTreeNode tree, int level)
+        {
+            while (tree != null)
+            {
+                string Child;
+                if (tree.GetChildCount() == 0)
+                    Child = "nullptr";
+                else
+                    Child = (_Index + 1) + ".." + (_Index + 1 + tree.GetChildCount());
+                string ID = (_Index++).ToString();
+                string ParentID = level.ToString();
+                string Sibling;
+                if (tree.GetSibling() != null)
+                    if (tree.GetChildCount() == 0)
+                        Sibling = (_Index + 1).ToString();
+                    else
+                        Sibling = (_Index + 1 + tree.GetChildCount() + 1).ToString();
+                else
+                    Sibling = "nullptr";
+                string LineNo = tree.GetLineNo().ToString();
+                string NodeKind = tree.GetNodeKind().ToString();
+                string K_Dec = tree.GetKindDec().ToString();
+                string K_Stmt = tree.GetKindStmt().ToString();
+                string K_Exp = tree.GetKindExp().ToString();
+                string IDNum = tree.GetIDNum().ToString();
+                string Name = "NULL";
+                if (IDNum != "0")
+                {
+                    Name = "";
+                    for (int i = 0; i < tree.GetIDNum(); i++)
+                        Name = Name + tree.GetName(i) + "|";
+                }
+                string Table = "NULL";
+                string Attr = tree.GetAttrType();
+                string AttrTypeName = tree.GetAttrTypeName();
+                if (AttrTypeName == null)
+                    AttrTypeName = "NULL";
+                string AA_Low = tree.GetAttrArrayLow().ToString();
+                string AA_Up = tree.GetAttrArrayUp().ToString();
+                string AA_ChildType = tree.GetAttrArrayChildType().ToString();
+                string PA_Paramt = tree.GetAttrProcParamtType().ToString();
+                string EA_OP = tree.GetAttrExpOP().ToString();
+                string EA_Val = tree.GetAttrExpVal().ToString();
+                string EA_VarKind = tree.GetAttrExpVarKind().ToString();
+                string EA_Type = tree.GetAttrExpType().ToString();
+                string Preview= printTree(tree, 0).ToString();
+                _DataTable.Rows.Add(new object[] { NodeKind, ID, ParentID, Child, Sibling, LineNo, K_Dec, K_Stmt, K_Exp, IDNum, Name, Table, Attr, AttrTypeName, AA_Low, AA_Up, AA_ChildType, PA_Paramt, EA_OP, EA_Val, EA_VarKind, EA_Type, Preview });
+
+                for (int i = 0; i < tree.GetChildCount(); i++)
+                    FillDataTable(tree.GetChild(i), int.Parse(ID));
+
+                tree = tree.GetSibling();
+            }
+        }
+
+        private void printSpaces()
+        {
+            int i;
+            for (i = 0; i < indentno; i++)
+                Console.Write(" ");
+        }
+
+        private void printTab(int tabnum)
+        {
+            for (int i = 0; i < tabnum; i++)
+                Console.Write(" ");
+        }
+
+        public void printTree(SNLTreeNode tree)
+        {
+            int i;
+            while (tree != null)
+            {
+                /*打印行号*/
+                if (tree.GetLineNo() == 0)
+                    printTab(9);
+                else
+                    switch ((int)(tree.GetLineNo() / 10))
+                    {
+                        case 0:
+                            Console.Write("line" + tree.GetLineNo());
+                            printTab(3);
+                            break;
+                        case 1:
+                        case 2:
+                        case 3:
+                        case 4:
+                        case 5:
+                        case 6:
+                        case 7:
+                        case 8:
+                        case 9:
+                            Console.Write("line" + tree.GetLineNo());
+                            printTab(2);
+                            break;
+                        default:
+                            Console.Write("line" + tree.GetLineNo());
+                            printTab(1);
+                            break;
+                    }
+
+                /* 调用函数printSpaces,打印相应的空格,进行缩进 */
+                printSpaces();
+
+                switch (tree.GetNodeKind())
+                {
+                    case SNLTreeNodeType.ProK:
+                        Console.Write("ProK  "); break;
+                    case SNLTreeNodeType.PheadK:
+                        {
+                            Console.Write("PheadK  ");
+                            Console.Write(tree.GetName(0) + "  ");
+                        }
+                        break;
+                    case SNLTreeNodeType.DecK:
+                        {
+                            Console.Write("DecK  ");
+                            if (tree.GetAttrProcParamtType() == SNLProcParamtType.VARPARAMTYPE)
+                                Console.Write("var param:  ");
+                            if (tree.GetAttrProcParamtType() == SNLProcParamtType.VALPARAMTYPE)
+                                Console.Write("value param:  ");
+                            switch (tree.GetKindDec())
+                            {
+                                case SNLTreeNodeTypeDec.ArrayK:
+                                    Console.Write("ArrayK  ");
+                                    Console.Write(tree.GetAttrArrayUp() + "  ");
+                                    Console.Write(tree.GetAttrArrayLow() + "  ");
+                                    if (tree.GetAttrArrayChildType() == SNLTreeNodeTypeDec.CharK)
+                                        Console.Write("Chark  ");
+                                    else if (tree.GetAttrArrayChildType() == SNLTreeNodeTypeDec.IntegerK)
+                                        Console.Write("IntegerK  ");
+                                    break;
+                                case SNLTreeNodeTypeDec.CharK:
+                                    Console.Write("CharK  "); break;
+                                case SNLTreeNodeTypeDec.IntegerK:
+                                    Console.Write("IntegerK  "); break;
+                                case SNLTreeNodeTypeDec.RecordK:
+                                    Console.Write("RecordK  "); break;
+                                case SNLTreeNodeTypeDec.IdK:
+                                    Console.Write("IdK  ");
+                                    Console.Write(tree.GetAttrTypeName() + "  ");
+                                    break;
+                                default:
+                                    Console.Write("error1!");
+                                    Error = true;
+                                    break;
+                            };
+                            if (tree.GetIDNum() != 0)
+                                for (int ii = 0; ii < tree.GetIDNum(); ii++)
+                                {
+                                    Console.Write(tree.GetName(ii) + "  ");
+                                }
+                            else
+                            {
+                                Console.Write("wrong!no var!\n");
+                                Error = true;
+                            }
+                        }
+                        break;
+                    case SNLTreeNodeType.TypeK:
+                        Console.Write("TypeK  "); break;
+
+                    case SNLTreeNodeType.VarK:
+                        Console.Write("VarK  ");
+                        //                        if (tree->table[0] != null)
+                        //                            Console.Write("%d  %d  ", tree->table[0]->attrIR.More.VarAttr.off, tree->table[0]->attrIR.More.VarAttr.level);
+                        break;
+
+                    case SNLTreeNodeType.ProcDecK:
+                        Console.Write("ProcDecK  ");
+                        Console.Write(tree.GetName(0) + "  ");
+                        //                        if (tree->table[0] != null)
+                        //                            Console.Write("%d %d %d  ", tree->table[0]->attrIR.More.ProcAttr.mOff, tree->table[0]->attrIR.More.ProcAttr.nOff, tree->table[0]->attrIR.More.ProcAttr.level);
+                        break;
+
+                    case SNLTreeNodeType.StmLK:
+                        Console.Write("StmLk  "); break;
+
+                    case SNLTreeNodeType.StmtK:
+                        {
+                            Console.Write("StmtK  ");
+                            switch (tree.GetKindStmt())
+                            {
+
+                                case SNLTreeNodeTypeStmt.IfK:
+                                    Console.Write("If  "); break;
+                                case SNLTreeNodeTypeStmt.WhileK:
+                                    Console.Write("While  "); break;
+
+                                case SNLTreeNodeTypeStmt.AssignK:
+                                    Console.Write("Assign  ");
+                                    break;
+
+                                case SNLTreeNodeTypeStmt.ReadK:
+                                    Console.Write("Read  ");
+                                    Console.Write(tree.GetName(0) + "  ");
+                                    //                                    if (tree->table[0] != null)
+                                    //                                        Console.Write("%d   %d  ", tree->table[0]->attrIR.More.VarAttr.off, tree->table[0]->attrIR.More.VarAttr.level);
+                                    break;
+
+                                case SNLTreeNodeTypeStmt.WriteK:
+                                    Console.Write("Write  "); break;
+
+                                case SNLTreeNodeTypeStmt.CallK:
+                                    Console.Write("Call  ");
+                                    break;
+
+                                case SNLTreeNodeTypeStmt.ReturnK:
+                                    Console.Write("Return  "); break;
+
+                                default:
+                                    Console.Write("error2!");
+                                    Error = true;
+                                    break;
+                            }
+                        }; break;
+                    case SNLTreeNodeType.ExpK:
+                        {
+                            Console.Write("ExpK  ");
+                            switch (tree.GetKindExp())
+                            {
+                                case SNLTreeNodeTypeExp.OpK:
+                                    {
+                                        Console.Write("Op  ");
+                                        switch (tree.GetAttrExpOP())
+                                        {
+                                            case SNLLexType.EQ:
+                                                Console.Write("=  ");
+                                                break;
+                                            case SNLLexType.LT:
+                                                Console.Write("<  ");
+                                                break;
+                                            case SNLLexType.PLUS:
+                                                Console.Write("+  ");
+                                                break;
+                                            case SNLLexType.MINUS:
+                                                Console.Write("-  ");
+                                                break;
+                                            case SNLLexType.TIMES:
+                                                Console.Write("*  ");
+                                                break;
+                                            case SNLLexType.OVER:
+                                                Console.Write("/  ");
+                                                break;
+                                            default:
+                                                Console.Write("error3!");
+                                                Error = true;
+                                                break;
+                                        }
+
+                                        if (tree.GetAttrExpVarKind() == SNLExpAttrVarKindType.ArrayMembV)
+                                        {
+                                            Console.Write("ArrayMember  ");
+                                            Console.Write(tree.GetName(0) + "  ");
+                                        }
+                                    }; break;
+                                case SNLTreeNodeTypeExp.ConstK:
+                                    Console.Write("Const  ");
+                                    switch (tree.GetAttrExpVarKind())
+                                    {
+                                        case SNLExpAttrVarKindType.IdV:
+                                            Console.Write("Id  ");
+                                            Console.Write(tree.GetAttrExpVal() + "  ");
+                                            break;
+                                        case SNLExpAttrVarKindType.FieldMembV:
+                                            Console.Write("FieldMember  ");
+                                            Console.Write(tree.GetAttrExpVal() + "  ");
+                                            break;
+                                        case SNLExpAttrVarKindType.ArrayMembV:
+                                            Console.Write("ArrayMember  ");
+                                            Console.Write(tree.GetAttrExpVal() + "  ");
+                                            break;
+                                        default:
+                                            Console.Write("var type error!");
+                                            Error = true;
+                                            break;
+                                    }
+                                    break;
+                                case SNLTreeNodeTypeExp.VariK:
+                                    Console.Write("Vari  ");
+                                    switch (tree.GetAttrExpVarKind())
+                                    {
+                                        case SNLExpAttrVarKindType.IdV:
+                                            Console.Write("Id  ");
+                                            Console.Write(tree.GetName(0) + "  ");
+                                            break;
+                                        case SNLExpAttrVarKindType.FieldMembV:
+                                            Console.Write("FieldMember  ");
+                                            Console.Write(tree.GetName(0) + "  ");
+                                            break;
+                                        case SNLExpAttrVarKindType.ArrayMembV:
+                                            Console.Write("ArrayMember  ");
+                                            Console.Write(tree.GetName(0) + "  ");
+                                            break;
+                                        default:
+                                            Console.Write("var type error!");
+                                            Error = true;
+                                            break;
+                                    }
+                                    //if (tree->table[0] != null)
+                                    //    Console.Write("%d   %d  ", tree->table[0]->attrIR.More.VarAttr.off, tree->table[0]->attrIR.More.VarAttr.level);
+
+                                    break;
+                                default:
+                                    Console.Write("error4!");
+                                    Error = true;
+                                    break;
+                            }
+                        }; break;
+                    default:
+                        Console.Write("error5!");
+                        Error = true;
+                        break;
+                }
+
+                Console.Write("\n");
+
+                /* 对语法树结点tree的各子结点递归调用printTree过程 *
+                 * 缩进写入列表文件listing						   */
+                for (i = 0; i < tree.GetChildCount(); i++)
+                    printTree(tree.GetChild(i));
+
+                /* 对语法树结点tree的兄弟节点递归调用printTree过程 *
+                 * 缩进写入列表文件listing						   */
+                tree = tree.GetSibling();
+            }
+
+            /* 减量缩进宏,每次退出语法树节点时减量缩进 */
+            indentno -= 4;
+        }
+
+        public StringBuilder printTree(SNLTreeNode tree, int x)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("Line:" + tree.GetLineNo() + " ");
+            switch (tree.GetNodeKind())
+            {
+                case SNLTreeNodeType.ProK:
+                    sb.Append("Prok ");
+                    break;
+                case SNLTreeNodeType.PheadK:
+                    sb.Append("PheadK " + tree.GetName(0) + " ");
+                    break;
+                case SNLTreeNodeType.DecK:
+                    {
+                        sb.Append("DecK ");
+                        if (tree.GetAttrProcParamtType() == SNLProcParamtType.VARPARAMTYPE)
+                            sb.Append("VARPARAMTYPE: ");
+                        if (tree.GetAttrProcParamtType() == SNLProcParamtType.VALPARAMTYPE)
+                            sb.Append("VALPARAMTYPE: ");
+                        switch (tree.GetKindDec())
+                        {
+                            case SNLTreeNodeTypeDec.ArrayK:
+                                sb.Append("ArrayK ");
+                                sb.Append(tree.GetAttrArrayUp() + " ");
+                                sb.Append(tree.GetAttrArrayLow() + " ");
+                                if (tree.GetAttrArrayChildType() == SNLTreeNodeTypeDec.CharK)
+                                    sb.Append("Chark ");
+                                else if (tree.GetAttrArrayChildType() == SNLTreeNodeTypeDec.IntegerK)
+                                    sb.Append("IntegerK ");
+                                break;
+                            case SNLTreeNodeTypeDec.CharK:
+                                sb.Append("CharK "); break;
+                            case SNLTreeNodeTypeDec.IntegerK:
+                                sb.Append("IntegerK "); break;
+                            case SNLTreeNodeTypeDec.RecordK:
+                                sb.Append("RecordK "); break;
+                            case SNLTreeNodeTypeDec.IdK:
+                                sb.Append("IdK ");
+                                sb.Append(tree.GetAttrTypeName() + " ");
+                                break;
+                        };
+                        if (tree.GetIDNum() != 0)
+                            for (int ii = 0; ii < tree.GetIDNum(); ii++)
+                            {
+                                sb.Append(tree.GetName(ii) + " ");
+                            }
+                    }
+                    break;
+                case SNLTreeNodeType.TypeK:
+                    sb.Append("TypeK ");
+                    break;
+                case SNLTreeNodeType.VarK:
+                    sb.Append("VarK ");
+                    break;
+                case SNLTreeNodeType.ProcDecK:
+                    sb.Append("ProcDecK ");
+                    sb.Append(tree.GetName(0) + "  ");
+                    break;
+                case SNLTreeNodeType.StmLK:
+                    sb.Append("StmLk ");
+                    break;
+                case SNLTreeNodeType.StmtK:
+                    sb.Append("StmtK ");
+                    switch (tree.GetKindStmt())
+                    {
+                        case SNLTreeNodeTypeStmt.IfK:
+                            sb.Append("If ");
+                            break;
+                        case SNLTreeNodeTypeStmt.WhileK:
+                            sb.Append("While ");
+                            break;
+
+                        case SNLTreeNodeTypeStmt.AssignK:
+                            sb.Append("Assign ");
+                            break;
+                        case SNLTreeNodeTypeStmt.ReadK:
+                            sb.Append("Read ");
+                            sb.Append(tree.GetName(0) + " ");
+                            break;
+                        case SNLTreeNodeTypeStmt.WriteK:
+                            sb.Append("Write ");
+                            break;
+                        case SNLTreeNodeTypeStmt.CallK:
+                            sb.Append("Call ");
+                            break;
+                        case SNLTreeNodeTypeStmt.ReturnK:
+                            sb.Append("Return ");
+                            break;
+                    }
+                    break;
+                case SNLTreeNodeType.ExpK:
+                    sb.Append("ExpK ");
+                    switch (tree.GetKindExp())
+                    {
+                        case SNLTreeNodeTypeExp.OpK:
+                            {
+                                sb.Append("Op ");
+                                switch (tree.GetAttrExpOP())
+                                {
+                                    case SNLLexType.EQ:
+                                        sb.Append("= ");
+                                        break;
+                                    case SNLLexType.LT:
+                                        sb.Append("< ");
+                                        break;
+                                    case SNLLexType.PLUS:
+                                        sb.Append("+ ");
+                                        break;
+                                    case SNLLexType.MINUS:
+                                        sb.Append("- ");
+                                        break;
+                                    case SNLLexType.TIMES:
+                                        sb.Append("* ");
+                                        break;
+                                    case SNLLexType.OVER:
+                                        sb.Append("/ ");
+                                        break;
+                                }
+                                if (tree.GetAttrExpVarKind() == SNLExpAttrVarKindType.ArrayMembV)
+                                {
+                                    sb.Append("ArrayMember ");
+                                    sb.Append(tree.GetName(0) + " ");
+                                }
+                            }; break;
+                        case SNLTreeNodeTypeExp.ConstK:
+                            sb.Append("Const ");
+                            switch (tree.GetAttrExpVarKind())
+                            {
+                                case SNLExpAttrVarKindType.IdV:
+                                    sb.Append("Id ");
+                                    sb.Append(tree.GetAttrExpVal() + " ");
+                                    break;
+                                case SNLExpAttrVarKindType.FieldMembV:
+                                    sb.Append("FieldMember ");
+                                    sb.Append(tree.GetAttrExpVal() + " ");
+                                    break;
+                                case SNLExpAttrVarKindType.ArrayMembV:
+                                    sb.Append("ArrayMember ");
+                                    sb.Append(tree.GetAttrExpVal() + " ");
+                                    break;
+                            }
+                            break;
+                        case SNLTreeNodeTypeExp.VariK:
+                            sb.Append("Vari ");
+                            switch (tree.GetAttrExpVarKind())
+                            {
+                                case SNLExpAttrVarKindType.IdV:
+                                    sb.Append("Id ");
+                                    sb.Append(tree.GetName(0) + " ");
+                                    break;
+                                case SNLExpAttrVarKindType.FieldMembV:
+                                    sb.Append("FieldMember ");
+                                    sb.Append(tree.GetName(0) + " ");
+                                    break;
+                                case SNLExpAttrVarKindType.ArrayMembV:
+                                    sb.Append("ArrayMember ");
+                                    sb.Append(tree.GetName(0) + " ");
+                                    break;
+                            }
+                            break;
+                    }
+                    break;
+            }
+            return sb;
+        }
+
         private SNLTreeNode newRootNode()
         {
             SNLTreeNode temp = new SNLTreeNode();
@@ -158,12 +698,10 @@ namespace RDCompiler.Syntactic_Analyzer
 
         private SNLTreeNode program()
         {
+            SNLTreeNode root = newRootNode();
             SNLTreeNode t = programHead();
             SNLTreeNode q = declarePart();
             SNLTreeNode s = programBody();
-
-            SNLTreeNode root = newRootNode();
-
             if (t != null)
                 root.AddChild(t);
             else
@@ -391,6 +929,7 @@ namespace RDCompiler.Syntactic_Analyzer
                 up = int.Parse(_TokenList[_Pointer].GetSem());
             }
             match(SNLLexType.INTC);
+            t.SetAttrArray(low, up);
             match(SNLLexType.RMIDPAREN);
             match(SNLLexType.OF);
             baseType(t);
@@ -1000,9 +1539,9 @@ namespace RDCompiler.Syntactic_Analyzer
         private SNLTreeNode exp()
         {
             SNLTreeNode t = simple_exp();
-            if ((_TokenList[_Pointer].GetLexType() ==  SNLLexType.LT) || (_TokenList[_Pointer].GetLexType() == SNLLexType.EQ))
+            if ((_TokenList[_Pointer].GetLexType() == SNLLexType.LT) || (_TokenList[_Pointer].GetLexType() == SNLLexType.EQ))
             {
-                SNLTreeNode p = newExpNode( SNLTreeNodeTypeExp.OpK);
+                SNLTreeNode p = newExpNode(SNLTreeNodeTypeExp.OpK);
                 if (p != null)
                 {
                     p.AddChild(t);
@@ -1013,17 +1552,17 @@ namespace RDCompiler.Syntactic_Analyzer
                 if (t != null)
                     t.AddChild(simple_exp());
             }
-            
+
             return t;
         }
-        
+
         private SNLTreeNode simple_exp()
 
         {
             SNLTreeNode t = term();
-            while ((_TokenList[_Pointer].GetLexType() ==  SNLLexType.PLUS) || (_TokenList[_Pointer].GetLexType() == SNLLexType.MINUS))
+            while ((_TokenList[_Pointer].GetLexType() == SNLLexType.PLUS) || (_TokenList[_Pointer].GetLexType() == SNLLexType.MINUS))
             {
-                SNLTreeNode p = newExpNode( SNLTreeNodeTypeExp.OpK);
+                SNLTreeNode p = newExpNode(SNLTreeNodeTypeExp.OpK);
                 if (p != null)
                 {
                     p.AddChild(t);
@@ -1036,13 +1575,13 @@ namespace RDCompiler.Syntactic_Analyzer
             /* 函数返回表达式类型语法树节点t */
             return t;
         }
-        
+
         private SNLTreeNode term()
         {
             SNLTreeNode t = factor();
-            while ((_TokenList[_Pointer].GetLexType() ==  SNLLexType.TIMES) || (_TokenList[_Pointer].GetLexType() == SNLLexType.OVER))
+            while ((_TokenList[_Pointer].GetLexType() == SNLLexType.TIMES) || (_TokenList[_Pointer].GetLexType() == SNLLexType.OVER))
             {
-                SNLTreeNode p = newExpNode( SNLTreeNodeTypeExp.OpK);
+                SNLTreeNode p = newExpNode(SNLTreeNodeTypeExp.OpK);
                 if (p != null)
                 {
                     p.AddChild(t);
@@ -1061,8 +1600,8 @@ namespace RDCompiler.Syntactic_Analyzer
 
             switch (_TokenList[_Pointer].GetLexType())
             {
-                case  SNLLexType.INTC:
-                    t = newExpNode( SNLTreeNodeTypeExp.ConstK);
+                case SNLLexType.INTC:
+                    t = newExpNode(SNLTreeNodeTypeExp.ConstK);
                     if ((t != null) && (_TokenList[_Pointer].GetLexType() == SNLLexType.INTC))
                     {
                         t.SetAttrExp(int.Parse(_TokenList[_Pointer].GetSem()));
@@ -1084,10 +1623,10 @@ namespace RDCompiler.Syntactic_Analyzer
             }
             return t;
         }
-        
+
         private SNLTreeNode variable()
         {
-            SNLTreeNode t = newExpNode( SNLTreeNodeTypeExp.VariK);
+            SNLTreeNode t = newExpNode(SNLTreeNodeTypeExp.VariK);
 
             if ((t != null) && (_TokenList[_Pointer].GetLexType() == SNLLexType.ID))
             {
@@ -1098,7 +1637,7 @@ namespace RDCompiler.Syntactic_Analyzer
             variMore(t);
             return t;
         }
-        
+
         void variMore(SNLTreeNode t)
         {
             switch (_TokenList[_Pointer].GetLexType())
@@ -1140,25 +1679,25 @@ namespace RDCompiler.Syntactic_Analyzer
                     break;
             }
         }
-        
+
         private SNLTreeNode fieldvar()
         {
-            SNLTreeNode t = newExpNode( SNLTreeNodeTypeExp.VariK);
+            SNLTreeNode t = newExpNode(SNLTreeNodeTypeExp.VariK);
 
-            if ((t != null) && (_TokenList[_Pointer].GetLexType() ==  SNLLexType.ID))
+            if ((t != null) && (_TokenList[_Pointer].GetLexType() == SNLLexType.ID))
             {
                 t.AddName(_TokenList[_Pointer].GetSem());
             }
-            match( SNLLexType.ID);
+            match(SNLLexType.ID);
             fieldvarMore(t);
             return t;
         }
-        
+
         void fieldvarMore(SNLTreeNode t)
         {
             switch (_TokenList[_Pointer].GetLexType())
             {
-                case  SNLLexType.ASSIGN:
+                case SNLLexType.ASSIGN:
                 case SNLLexType.TIMES:
                 case SNLLexType.EQ:
                 case SNLLexType.LT:
@@ -1179,7 +1718,7 @@ namespace RDCompiler.Syntactic_Analyzer
                     match(SNLLexType.LMIDPAREN);
                     t.AddChild(exp());
                     t.GetChild(0).SetAttrExp(SNLExpAttrVarKindType.ArrayMembV);
-                    match( SNLLexType.RMIDPAREN);
+                    match(SNLLexType.RMIDPAREN);
                     break;
                 default:
                     ReadToken();
@@ -1187,14 +1726,14 @@ namespace RDCompiler.Syntactic_Analyzer
                     break;
             }
         }
-        
+
         private SNLTreeNode parse()
         {
             SNLTreeNode t = null;
             ReadToken();
             t = program();
-//            if (_TokenList[_Pointer].GetLexType() !=  SNLLexType.ENDFILE)
-//                _DebugList.Add("Code ends before file\n");
+            //            if (_TokenList[_Pointer].GetLexType() !=  SNLLexType.ENDFILE)
+            //                _DebugList.Add("Code ends before file\n");
             return t;
         }
     }
