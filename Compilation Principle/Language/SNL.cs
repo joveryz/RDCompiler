@@ -14,13 +14,9 @@ namespace RDCompiler.Language
 
     public enum SNLTreeNodeTypeStmt { NULL, IfK, WhileK, AssignK, ReadK, WriteK, CallK, ReturnK };
 
-    public enum SNLTreeNodeTypeExp { NULL, OpK, ConstK, IdK };
-
-    public enum SNLAttrType { NULL, ArrayAttr, ProcAttr, ExpAttr };
+    public enum SNLTreeNodeTypeExp { NULL, OpK, ConstK, VariK };
 
     public enum SNLProcParamtType { VALPARAMTYPE, VARPARAMTYPE }
-
-    public enum SNLExpAttrOPType { LT, EQ, PLUS, MINUS, TIMES, OVER };
 
     public enum SNLExpAttrVarKindType { IdV, ArrayMembV, FieldMembV };
 

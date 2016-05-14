@@ -30,7 +30,7 @@ namespace RDCompiler.Syntactic_Analyzer
 
         struct ExpAttr
         {
-            public SNLExpAttrOPType _OP;
+            public SNLLexType _OP;
             public int _Val;
             public SNLExpAttrVarKindType _VarKind;
             public SNLExpAttrType _Type;
@@ -51,7 +51,7 @@ namespace RDCompiler.Syntactic_Analyzer
         }
 
         private List<SNLTreeNode> _Child=new List<SNLTreeNode>();
-        private SNLTreeNode _Sibling = new SNLTreeNode();
+        private SNLTreeNode _Sibling;
         private int _LineNo = -1;
         private SNLTreeNodeType _NodeKind = new SNLTreeNodeType();
         
@@ -68,6 +68,11 @@ namespace RDCompiler.Syntactic_Analyzer
         {
             _Child.Add(Child);
             return Child;
+        }
+
+        public SNLTreeNode GetChild(int index)
+        {
+            return _Child[index];
         }
 
         public void SetSibling(SNLTreeNode Sibling)
@@ -99,6 +104,7 @@ namespace RDCompiler.Syntactic_Analyzer
         {
             return _Kind._Dec;
         }
+
         public void SetKindExp(SNLTreeNodeTypeExp Exp)
         {
             _Kind._Exp = Exp;
@@ -140,7 +146,7 @@ namespace RDCompiler.Syntactic_Analyzer
             _Attr.Exp = false;
         }
 
-        public void SetAttrExp(SNLExpAttrOPType OP)
+        public void SetAttrExp(SNLLexType OP)
         {
             _Attr._ExpAttr._OP = OP;
             _Attr.Array = false;
