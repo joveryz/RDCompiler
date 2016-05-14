@@ -238,17 +238,6 @@ namespace RDCompiler
         {
             CurrTextbox.SelectedText = DateTime.Now.ToShortTimeString() + " " + DateTime.Now.ToShortDateString();
         }
-        
-
-        private void CurrFileTextbox_TextChanged(object sender, EventArgs e)
-        {
-            UpdateCurrNumberLabel();
-        }
-
-        private void CurrFileTextbox_FontChanged(object sender, EventArgs e)
-        {
-            UpdateCurrNumberLabel();
-        }
 
         private void Lexer_Click(object sender, EventArgs e)
         {
@@ -379,11 +368,16 @@ namespace RDCompiler
             SNLLexer snllexer = new SNLLexer();
             snllexer.StartLexer(CurrTextbox.Text);
             List<SNLToken> TokenList = snllexer.GetTokenList();
-            List<List<string>> DebugList = snllexer.GetDebugList();
 
             SNLParser snlparser = new SNLParser();
             snlparser.StartParser(TokenList);
-            Console.WriteLine(snlparser.GetPointer());
+            SNLTreeNode Root = snlparser.GetRoot();
+            List<string> DebugList = snlparser.GetDebugList();
+
+            foreach(string s in DebugList)
+            {
+                Console.WriteLine(s);
+            }
         }
 
         private void NotepadForm_Move(object sender, EventArgs e)
@@ -391,6 +385,11 @@ namespace RDCompiler
             int m = Right;
             int n = Top;
             _LexerReForm.Location = new Point(m - 16, n);
+        }
+
+        private void CurrTextbox_TextChanged(object sender, EventArgs e)
+        {
+            UpdateCurrNumberLabel();
         }
     }
 }

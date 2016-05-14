@@ -69,19 +69,23 @@ namespace RDCompiler.Lexical_Analyzer
                 }
                 else if (Content[_Pointer] == '.')
                 {
+                    int temp = _Pointer;
                     if (_Pointer + 1 <= Content.Length - 1 && Content[++_Pointer] == '.')
                     {
-                        _TokenList.Add(new SNLToken(_LineNo, SNLLexType.UNDERANGE, "无语义信息", "."));
-                        _TokenList.Add(new SNLToken(_LineNo, SNLLexType.UNDERANGE, "无语义信息", "."));
+                        _TokenList.Add(new SNLToken(_LineNo, SNLLexType.UNDERANGE, "无语义信息", ".."));
                     }
                     else
                     {
-                        _Pointer--;
-                        if (Char.ToUpper(Content[_Pointer - 1]) != 'D' && Char.ToUpper(Content[_Pointer - 2]) != 'N' && Char.ToUpper(Content[_Pointer - 3]) != 'E')
+                        _Pointer = temp;
+                        if (Char.ToUpper(Content[_Pointer - 1]) == 'D' && Char.ToUpper(Content[_Pointer - 2]) == 'N' && Char.ToUpper(Content[_Pointer - 3]) == 'E')
+                        {
+                            _TokenList.Add(new SNLToken(_LineNo, SNLLexType.DOT, "无语义信息", "."));
+                        }
+                        else
                         {
                             List<string> s = new List<string>();
                             s.Add(_LineNo.ToString());
-                            s.Add(SNLLexType.UNDERANGE.ToString());
+                            s.Add(SNLLexType.DOT.ToString());
                             s.Add("UNEXPECTED DOT\n");
                             _DebugList.Add(s);
                             _Pointer--;
@@ -115,7 +119,7 @@ namespace RDCompiler.Lexical_Analyzer
                     
                 _Pointer++;
             }
-            _TokenList.Add(new SNLToken(_LineNo - 1, SNLLexType.ENDFILE, "无语义信息", ""));
+            _TokenList.Add(new SNLToken(_LineNo, SNLLexType.ENDFILE, "无语义信息", ""));
         }
 
         private bool IsSingleDelimiter(char c)

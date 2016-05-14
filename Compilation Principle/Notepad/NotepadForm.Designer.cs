@@ -66,11 +66,11 @@
             this.InfoPanel = new System.Windows.Forms.Panel();
             this.OriLabel = new System.Windows.Forms.Label();
             this.MainPanel = new System.Windows.Forms.Panel();
+            this.CurrTextbox = new RDCompiler.NotepadForm.SynchronizedScrollRichTextBox();
+            this.CurrLineNumber = new RDCompiler.NotepadForm.SynchronizedScrollRichTextBox();
             this.DebugPanel = new System.Windows.Forms.Panel();
             this.DebugLabel = new System.Windows.Forms.Label();
             this.DebugGridview = new System.Windows.Forms.DataGridView();
-            this.CurrTextbox = new RDCompiler.NotepadForm.SynchronizedScrollRichTextBox();
-            this.CurrLineNumber = new RDCompiler.NotepadForm.SynchronizedScrollRichTextBox();
             this.MenuList.SuspendLayout();
             this.InfoPanel.SuspendLayout();
             this.MainPanel.SuspendLayout();
@@ -421,6 +421,44 @@
             this.MainPanel.Size = new System.Drawing.Size(877, 390);
             this.MainPanel.TabIndex = 10;
             // 
+            // CurrTextbox
+            // 
+            this.CurrTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.CurrTextbox.BackColor = System.Drawing.Color.White;
+            this.CurrTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.CurrTextbox.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.CurrTextbox.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CurrTextbox.Location = new System.Drawing.Point(40, 20);
+            this.CurrTextbox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.CurrTextbox.Name = "CurrTextbox";
+            this.CurrTextbox.Size = new System.Drawing.Size(836, 369);
+            this.CurrTextbox.Synchronized = this.CurrLineNumber;
+            this.CurrTextbox.TabIndex = 6;
+            this.CurrTextbox.Text = "";
+            this.CurrTextbox.WordWrap = false;
+            this.CurrTextbox.TextChanged += new System.EventHandler(this.CurrTextbox_TextChanged);
+            // 
+            // CurrLineNumber
+            // 
+            this.CurrLineNumber.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.CurrLineNumber.BackColor = System.Drawing.Color.White;
+            this.CurrLineNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.CurrLineNumber.Enabled = false;
+            this.CurrLineNumber.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CurrLineNumber.Location = new System.Drawing.Point(0, 20);
+            this.CurrLineNumber.Name = "CurrLineNumber";
+            this.CurrLineNumber.ReadOnly = true;
+            this.CurrLineNumber.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.CurrLineNumber.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.CurrLineNumber.Size = new System.Drawing.Size(41, 369);
+            this.CurrLineNumber.Synchronized = null;
+            this.CurrLineNumber.TabIndex = 7;
+            this.CurrLineNumber.Text = "";
+            this.CurrLineNumber.WordWrap = false;
+            // 
             // DebugPanel
             // 
             this.DebugPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -464,43 +502,6 @@
             this.DebugGridview.TabIndex = 1;
             this.DebugGridview.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DebugGridview_CellDoubleClick);
             this.DebugGridview.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.DebugGridview_RowPostPaint);
-            // 
-            // CurrTextbox
-            // 
-            this.CurrTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.CurrTextbox.BackColor = System.Drawing.Color.White;
-            this.CurrTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.CurrTextbox.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.CurrTextbox.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CurrTextbox.Location = new System.Drawing.Point(40, 20);
-            this.CurrTextbox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.CurrTextbox.Name = "CurrTextbox";
-            this.CurrTextbox.Size = new System.Drawing.Size(836, 369);
-            this.CurrTextbox.Synchronized = this.CurrLineNumber;
-            this.CurrTextbox.TabIndex = 6;
-            this.CurrTextbox.Text = "";
-            this.CurrTextbox.WordWrap = false;
-            // 
-            // CurrLineNumber
-            // 
-            this.CurrLineNumber.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.CurrLineNumber.BackColor = System.Drawing.Color.White;
-            this.CurrLineNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.CurrLineNumber.Enabled = false;
-            this.CurrLineNumber.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CurrLineNumber.Location = new System.Drawing.Point(0, 20);
-            this.CurrLineNumber.Name = "CurrLineNumber";
-            this.CurrLineNumber.ReadOnly = true;
-            this.CurrLineNumber.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.CurrLineNumber.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.CurrLineNumber.Size = new System.Drawing.Size(41, 369);
-            this.CurrLineNumber.Synchronized = null;
-            this.CurrLineNumber.TabIndex = 7;
-            this.CurrLineNumber.Text = "";
-            this.CurrLineNumber.WordWrap = false;
             // 
             // NotepadForm
             // 

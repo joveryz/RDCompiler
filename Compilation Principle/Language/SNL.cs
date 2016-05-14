@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RDCompiler.Language
 {
-    public enum SNLLexType { ENDFILE, ERROR, PROGRAM, PROCEDURE, TYPE, VAR, IF, THEN, ELSE, FI, WHILE, DO, ENDWH, BEGIN, END, READ, WRITE, ARRAY, OF, RECORD, RETURN, INTEGER, CHAR, ID, INTC, CHARC, ASSIGN, EQ, LT, PLUS, MINUS, TIMES, OVER, LPAREN, RPAREN, DOT, COLON, SEMI, COMMA, LMIDPAREN, RMIDPAREN, UNDERANGE, SINGLED };
+    public enum SNLLexType { NULL, ENDFILE, ERROR, PROGRAM, PROCEDURE, TYPE, VAR, IF, THEN, ELSE, FI, WHILE, DO, ENDWH, BEGIN, END, READ, WRITE, ARRAY, OF, RECORD, RETURN, INTEGER, CHAR, ID, INTC, CHARC, ASSIGN, EQ, LT, PLUS, MINUS, TIMES, OVER, LPAREN, RPAREN, DOT, COLON, SEMI, COMMA, LMIDPAREN, RMIDPAREN, UNDERANGE, SINGLED };
 
     public enum SNLTreeNodeType { ProK, PheadK, TypeK, VarK, ProcDecK, StmLK, DecK, StmtK, ExpK };
 
@@ -16,7 +16,7 @@ namespace RDCompiler.Language
 
     public enum SNLTreeNodeTypeExp { NULL, OpK, ConstK, VariK };
 
-    public enum SNLProcParamtType { VALPARAMTYPE, VARPARAMTYPE }
+    public enum SNLProcParamtType { NULL, VALPARAMTYPE, VARPARAMTYPE }
 
     public enum SNLExpAttrVarKindType { IdV, ArrayMembV, FieldMembV };
 

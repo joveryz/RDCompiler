@@ -32,11 +32,22 @@ namespace RDCompiler.Syntactic_Analyzer
             return _Pointer;
         }
 
+        public SNLTreeNode GetRoot()
+        {
+            return _Root;
+        }
+
+        public List<string> GetDebugList()
+        {
+            return _DebugList;
+        }
+
         public SNLTreeNode SNLTree()
         {
             return _Root;
         }
 
+        
         private SNLTreeNode newRootNode()
         {
             SNLTreeNode temp = new SNLTreeNode();
@@ -121,17 +132,26 @@ namespace RDCompiler.Syntactic_Analyzer
             return temp;
         }
 
+        private bool ReadToken()
+        {
+            if (_Pointer + 1 <= _TokenList.Count)
+            {
+                _Pointer++;
+                return true;
+            }
+            return false;
+        }
 
         private void match(SNLLexType LexType)
         {
             if (_TokenList[_Pointer].GetLexType() == LexType)
             {
-                _Pointer++;
+                ReadToken();
             }
             else
             {
                 _DebugList.Add("not match error " + LexType.ToString());
-                _Pointer++;
+                ReadToken();
             }
 
         }
@@ -228,7 +248,7 @@ namespace RDCompiler.Syntactic_Analyzer
                     break;
 
                 default:
-                    _Pointer++;
+                    ReadToken();
                     _DebugList.Add("unexpected token is here!");
                     break;
             }
@@ -275,7 +295,7 @@ namespace RDCompiler.Syntactic_Analyzer
                     t = typeDecList();
                     break;
                 default:
-                    _Pointer++;
+                    ReadToken();
                     _DebugList.Add("unexpected token is here!");
                     break;
             }
@@ -310,7 +330,7 @@ namespace RDCompiler.Syntactic_Analyzer
                         match(SNLLexType.ID);
                         break;
                     default:
-                        _Pointer++;
+                        ReadToken();
                         _DebugList.Add("unexpected token is here!");
                         break;
                 }
@@ -331,7 +351,7 @@ namespace RDCompiler.Syntactic_Analyzer
                     break;
 
                 default:
-                    _Pointer++;
+                    ReadToken();
                     _DebugList.Add("unexpected token is here!");
                     break;
             }
@@ -349,7 +369,7 @@ namespace RDCompiler.Syntactic_Analyzer
                     recType(t);
                     break;
                 default:
-                    _Pointer++;
+                    ReadToken();
                     _DebugList.Add("unexpected token is here!");
                     break;
             }
@@ -412,7 +432,7 @@ namespace RDCompiler.Syntactic_Analyzer
                         p = fieldDecMore();
                         break;
                     default:
-                        _Pointer++;
+                        ReadToken();
                         _DebugList.Add("unexpected token is here!");
                         break;
                 }
@@ -434,7 +454,7 @@ namespace RDCompiler.Syntactic_Analyzer
                     t = fieldDecList();
                     break;
                 default:
-                    _Pointer++;
+                    ReadToken();
                     _DebugList.Add("unexpected token is here!");
                     break;
             }
@@ -461,7 +481,7 @@ namespace RDCompiler.Syntactic_Analyzer
                     idList(t);
                     break;
                 default:
-                    _Pointer++;
+                    ReadToken();
                     _DebugList.Add("unexpected token is here!");
                     break;
             }
@@ -479,7 +499,7 @@ namespace RDCompiler.Syntactic_Analyzer
                     t = varDeclaration();
                     break;
                 default:
-                    _Pointer++;
+                    ReadToken();
                     _DebugList.Add("unexpected token is here!");
                     break;
             }
@@ -528,7 +548,7 @@ namespace RDCompiler.Syntactic_Analyzer
                     t = varDecList();
                     break;
                 default:
-                    _Pointer++;
+                    ReadToken();
                     _DebugList.Add("unexpected token is here!");
                     break;
             }
@@ -545,7 +565,7 @@ namespace RDCompiler.Syntactic_Analyzer
             else
             {
                 _DebugList.Add("a varid is expected here!");
-                _Pointer++;
+                ReadToken();
             }
             varIdMore(t);
         }
@@ -561,7 +581,7 @@ namespace RDCompiler.Syntactic_Analyzer
                     varIdList(t);
                     break;
                 default:
-                    _Pointer++;
+                    ReadToken();
                     _DebugList.Add("unexpected token is here!");
                     break;
             }
@@ -577,7 +597,7 @@ namespace RDCompiler.Syntactic_Analyzer
                     t = procDeclaration();
                     break;
                 default:
-                    _Pointer++;
+                    ReadToken();
                     _DebugList.Add("unexpected token is here!");
                     break;
             }
@@ -623,7 +643,7 @@ namespace RDCompiler.Syntactic_Analyzer
                     t.AddChild(p);
                     break;
                 default:
-                    _Pointer++;
+                    ReadToken();
                     _DebugList.Add("unexpected token is here!");
                     break;
             }
@@ -654,7 +674,7 @@ namespace RDCompiler.Syntactic_Analyzer
                         _DebugList.Add("a param declaration is request!");
                     break;
                 default:
-                    _Pointer++;
+                    ReadToken();
                     _DebugList.Add("unexpected token is here!");
                     break;
             }
@@ -684,7 +704,7 @@ namespace RDCompiler.Syntactic_Analyzer
                         formList(t);
                         break;
                     default:
-                        _Pointer++;
+                        ReadToken();
                         _DebugList.Add("unexpected token is here!");
                         break;
                 }
@@ -714,7 +734,7 @@ namespace RDCompiler.Syntactic_Analyzer
                     formList(t);
                     break;
                 default:
-                    _Pointer++;
+                    ReadToken();
                     _DebugList.Add("unexpected token is here!");
                     break;
             }
@@ -771,7 +791,7 @@ namespace RDCompiler.Syntactic_Analyzer
                     t = stmList();
                     break;
                 default:
-                    _Pointer++;
+                    ReadToken();
                     _DebugList.Add("unexpected token is here!");
                     break;
             }
@@ -805,7 +825,7 @@ namespace RDCompiler.Syntactic_Analyzer
                     t = assCall();
                     break;
                 default:
-                    _Pointer++;
+                    ReadToken();
                     _DebugList.Add("unexpected token is here!");
                     break;
             }
@@ -826,7 +846,7 @@ namespace RDCompiler.Syntactic_Analyzer
                     t = callStmRest();
                     break;
                 default:
-                    _Pointer++;
+                    ReadToken();
                     _DebugList.Add("unexpected token is here!");
                     break;
             }
@@ -952,7 +972,7 @@ namespace RDCompiler.Syntactic_Analyzer
                         t.SetSibling(actParamMore());
                     break;
                 default:
-                    _Pointer++;
+                    ReadToken();
                     _DebugList.Add("unexpected token is here!");
                     break;
             }
@@ -970,7 +990,7 @@ namespace RDCompiler.Syntactic_Analyzer
                     t = actParamList();
                     break;
                 default:
-                    _Pointer++;
+                    ReadToken();
                     _DebugList.Add("unexpected token is here!");
                     break;
             }
@@ -1058,7 +1078,7 @@ namespace RDCompiler.Syntactic_Analyzer
                     match(SNLLexType.RPAREN);
                     break;
                 default:
-                    _Pointer++;
+                    ReadToken();
                     _DebugList.Add("unexpected token is here!");
                     break;
             }
@@ -1115,7 +1135,7 @@ namespace RDCompiler.Syntactic_Analyzer
                     t.GetChild(0).SetAttrExp(SNLExpAttrVarKindType.IdV);
                     break;
                 default:
-                    _Pointer++;
+                    ReadToken();
                     _DebugList.Add("unexpected token is here!");
                     break;
             }
@@ -1162,7 +1182,7 @@ namespace RDCompiler.Syntactic_Analyzer
                     match( SNLLexType.RMIDPAREN);
                     break;
                 default:
-                    _Pointer++;
+                    ReadToken();
                     _DebugList.Add("unexpected token is here!");
                     break;
             }
@@ -1171,7 +1191,7 @@ namespace RDCompiler.Syntactic_Analyzer
         private SNLTreeNode parse()
         {
             SNLTreeNode t = null;
-            _Pointer++;
+            ReadToken();
             t = program();
 //            if (_TokenList[_Pointer].GetLexType() !=  SNLLexType.ENDFILE)
 //                _DebugList.Add("Code ends before file\n");
