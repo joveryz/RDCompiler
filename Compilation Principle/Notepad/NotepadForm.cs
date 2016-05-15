@@ -242,12 +242,12 @@ namespace RDCompiler
 
         private void Lexer_Click(object sender, EventArgs e)
         {
-            if(LangChoose.Text!="SNL")
+            if (LangChoose.Text != "SNL")
             {
                 MessageBox.Show("请选择编程语言！", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            
+
             SNLLexer snllexer = new SNLLexer();
             snllexer.StartLexer(CurrTextbox.Text);
             List<SNLToken> TokenList = snllexer.GetTokenList();
@@ -256,7 +256,7 @@ namespace RDCompiler
             _LexerReForm.SetTokenList(TokenList);
             _ParserReForm.Hide();
             _LexerReForm.Show();
-            
+
             bool flag = false;
             DebugGridview.Rows.Clear();
             DebugGridview.Columns.Clear();
@@ -322,7 +322,7 @@ namespace RDCompiler
         {
             Form newForm = new NotepadAbout();
             newForm.ShowDialog();
-            
+
         }
 
         private void 查看帮助ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -376,7 +376,7 @@ namespace RDCompiler
             DataTable dt = snlparser.GetDataTable();
             _ParserReForm.SetDataSource(dt);
             List<string> DebugList = snlparser.GetDebugList();
-            foreach(string s in DebugList)
+            foreach (string s in DebugList)
             {
                 Console.WriteLine(s);
             }
@@ -389,7 +389,7 @@ namespace RDCompiler
             int m = Right;
             int n = Top;
             _LexerReForm.Location = new Point(m - 16, n);
-            _ParserReForm.Location= new Point(m - 16, n);
+            _ParserReForm.Location = new Point(m - 16, n);
         }
 
         private void CurrTextbox_TextChanged(object sender, EventArgs e)

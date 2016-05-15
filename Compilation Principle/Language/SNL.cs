@@ -18,9 +18,9 @@ namespace RDCompiler.Language
 
     public enum SNLProcParamtType { NULL, VALPARAMTYPE, VARPARAMTYPE }
 
-    public enum SNLExpAttrVarKindType {NULL, IdV, ArrayMembV, FieldMembV };
+    public enum SNLExpAttrVarKindType { NULL, IdV, ArrayMembV, FieldMembV };
 
-    public enum SNLExpAttrType {NULL, Void, Integer, Boolean };
+    public enum SNLExpAttrType { NULL, Void, Integer, Boolean };
 
 
 }

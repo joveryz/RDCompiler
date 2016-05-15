@@ -106,6 +106,7 @@
             this.Name = "NotepadLexerResult";
             this.ShowInTaskbar = false;
             this.Text = "词法分析结果";
+            this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NotepadLexerResult_FormClosing);
             this.Load += new System.EventHandler(this.NotepadLexerResult_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ReGridview)).EndInit();

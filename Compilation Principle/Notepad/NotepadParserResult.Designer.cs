@@ -331,6 +331,7 @@
             this.Name = "NotepadParserResult";
             this.ShowInTaskbar = false;
             this.Text = "语法分析结果";
+            this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NotepadParserResult_FormClosing);
             this.Load += new System.EventHandler(this.NotepadParserResult_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ParserReTreelist)).EndInit();

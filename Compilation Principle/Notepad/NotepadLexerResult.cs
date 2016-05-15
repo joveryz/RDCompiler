@@ -56,7 +56,7 @@ namespace RDCompiler.Notepad
             int row = ReGridview.Rows.Count;
             if (row == 0)
                 return sb;
-            
+
             sb.Append(",行号,词法信息,语义信息,字符串\r\n");
             for (int i = 0; i < row; i++)
             {

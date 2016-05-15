@@ -31,9 +31,9 @@ namespace RDCompiler.Lexical_Analyzer
                     }
                 }
             }
-            else if (Lex == SNLLexType.SINGLED) 
+            else if (Lex == SNLLexType.SINGLED)
             {
-                switch(Str)
+                switch (Str)
                 {
                     case ",":
                         _Lex = SNLLexType.COMMA;

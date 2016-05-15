@@ -21,6 +21,6 @@ namespace RDCompiler.Notepad
         {
             Close();
         }
-        
+
     }
 }

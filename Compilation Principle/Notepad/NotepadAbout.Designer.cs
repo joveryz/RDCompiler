@@ -96,9 +96,9 @@
             this.Name = "NotepadAbout";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "关于“RDCompiler”";
             this.TopMost = true;
-            this.Load += new System.EventHandler(this.NotepadAbout_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

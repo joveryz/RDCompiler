@@ -69,6 +69,8 @@ namespace RDCompiler.Syntactic_Analyzer
             _DataTable.Columns.Add("NodeKind", typeof(string));
             _DataTable.Columns.Add("ID", typeof(string));
             _DataTable.Columns.Add("ParentID", typeof(string));
+            _DataTable.Columns.Add("NodeID", typeof(string));
+            _DataTable.Columns.Add("Priview", typeof(string));
             _DataTable.Columns.Add("Child", typeof(string));
             _DataTable.Columns.Add("Sibling", typeof(string));
             _DataTable.Columns.Add("LineNo", typeof(string));
@@ -88,20 +90,22 @@ namespace RDCompiler.Syntactic_Analyzer
             _DataTable.Columns.Add("EA_Val", typeof(string));
             _DataTable.Columns.Add("EA_VarKind", typeof(string));
             _DataTable.Columns.Add("EA_Type", typeof(string));
-            _DataTable.Columns.Add("Priview", typeof(string));
         }
 
         public void FillDataTable(SNLTreeNode tree, int level)
         {
             while (tree != null)
             {
+                string NodeKind = tree.GetNodeKind().ToString();
+                string ID = (_Index++).ToString();
+                string ParentID = level.ToString();
+                string NodeID = ID;
+                string Preview = printTree(tree, 0).ToString();
                 string Child;
                 if (tree.GetChildCount() == 0)
                     Child = "nullptr";
                 else
                     Child = (_Index + 1) + ".." + (_Index + 1 + tree.GetChildCount());
-                string ID = (_Index++).ToString();
-                string ParentID = level.ToString();
                 string Sibling;
                 if (tree.GetSibling() != null)
                     if (tree.GetChildCount() == 0)
@@ -111,7 +115,6 @@ namespace RDCompiler.Syntactic_Analyzer
                 else
                     Sibling = "nullptr";
                 string LineNo = tree.GetLineNo().ToString();
-                string NodeKind = tree.GetNodeKind().ToString();
                 string K_Dec = tree.GetKindDec().ToString();
                 string K_Stmt = tree.GetKindStmt().ToString();
                 string K_Exp = tree.GetKindExp().ToString();
@@ -136,8 +139,7 @@ namespace RDCompiler.Syntactic_Analyzer
                 string EA_Val = tree.GetAttrExpVal().ToString();
                 string EA_VarKind = tree.GetAttrExpVarKind().ToString();
                 string EA_Type = tree.GetAttrExpType().ToString();
-                string Preview= printTree(tree, 0).ToString();
-                _DataTable.Rows.Add(new object[] { NodeKind, ID, ParentID, Child, Sibling, LineNo, K_Dec, K_Stmt, K_Exp, IDNum, Name, Table, Attr, AttrTypeName, AA_Low, AA_Up, AA_ChildType, PA_Paramt, EA_OP, EA_Val, EA_VarKind, EA_Type, Preview });
+                _DataTable.Rows.Add(new object[] { NodeKind, ID, ParentID, NodeID, Preview, Child, Sibling, LineNo, K_Dec, K_Stmt, K_Exp, IDNum, Name, Table, Attr, AttrTypeName, AA_Low, AA_Up, AA_ChildType, PA_Paramt, EA_OP, EA_Val, EA_VarKind, EA_Type });
 
                 for (int i = 0; i < tree.GetChildCount(); i++)
                     FillDataTable(tree.GetChild(i), int.Parse(ID));

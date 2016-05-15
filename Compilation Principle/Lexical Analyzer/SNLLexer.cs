@@ -17,7 +17,7 @@ namespace RDCompiler.Lexical_Analyzer
 
         public void StartLexer(string Content)
         {
-            while (_Pointer < Content.Length) 
+            while (_Pointer < Content.Length)
             {
                 if (Content[_Pointer] == '\n')
                     _LineNo++;
@@ -61,7 +61,7 @@ namespace RDCompiler.Lexical_Analyzer
                         s.Add("UNEXPECTED CHARACTER" + Content[_Pointer--] + "AFTER \':\'\n");
                         _DebugList.Add(s);
                     }
-                        
+
                 }
                 else if (Content[_Pointer] == '{')
                 {
@@ -116,7 +116,7 @@ namespace RDCompiler.Lexical_Analyzer
                     s.Add("UNKNOWN CHARACTER" + x + "\n");
                     _DebugList.Add(s);
                 }
-                    
+
                 _Pointer++;
             }
             _TokenList.Add(new SNLToken(_LineNo, SNLLexType.ENDFILE, "无语义信息", ""));
@@ -124,7 +124,7 @@ namespace RDCompiler.Lexical_Analyzer
 
         private bool IsSingleDelimiter(char c)
         {
-            if (c == ',' || c == '+' || c == '-' || c == '*' || c == '/' || c == '(' || c == ')' || c == '[' || c == ']' || c == ';' || c == '<' || c == '=' || c == '\0') 
+            if (c == ',' || c == '+' || c == '-' || c == '*' || c == '/' || c == '(' || c == ')' || c == '[' || c == ']' || c == ';' || c == '<' || c == '=' || c == '\0')
                 return true;
             return false;
         }
