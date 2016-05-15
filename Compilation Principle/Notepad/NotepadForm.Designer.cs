@@ -149,6 +149,7 @@
             this.Exit.Name = "Exit";
             this.Exit.Size = new System.Drawing.Size(174, 22);
             this.Exit.Text = "退出(X)";
+            this.Exit.Click += new System.EventHandler(this.Exit_Click);
             // 
             // EditMenuItem
             // 
@@ -286,7 +287,7 @@
             this.SaveLexerRe.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F6)));
             this.SaveLexerRe.Size = new System.Drawing.Size(238, 22);
             this.SaveLexerRe.Text = "保存词法分析结果(C)";
-            this.SaveLexerRe.Click += new System.EventHandler(this.SaveRe_Click);
+            this.SaveLexerRe.Click += new System.EventHandler(this.SaveLexerRe_Click);
             // 
             // SaveParserRe
             // 
@@ -294,6 +295,7 @@
             this.SaveParserRe.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F7)));
             this.SaveParserRe.Size = new System.Drawing.Size(238, 22);
             this.SaveParserRe.Text = "保存语法分析结果(Y)";
+            this.SaveParserRe.Click += new System.EventHandler(this.SaveParserRe_Click);
             // 
             // HelpMenuItem
             // 
@@ -310,7 +312,7 @@
             this.SeeHelp.Name = "SeeHelp";
             this.SeeHelp.Size = new System.Drawing.Size(152, 22);
             this.SeeHelp.Text = "查看帮助(H)";
-            this.SeeHelp.Click += new System.EventHandler(this.查看帮助ToolStripMenuItem_Click);
+            this.SeeHelp.Click += new System.EventHandler(this.SeeHelp_Click);
             // 
             // toolStripSeparator5
             // 
@@ -381,7 +383,7 @@
             this.LangChoose.Name = "LangChoose";
             this.LangChoose.Size = new System.Drawing.Size(186, 25);
             this.LangChoose.TabIndex = 10;
-            this.LangChoose.SelectionChangeCommitted += new System.EventHandler(this.comboBox1_SelectionChangeCommitted);
+            this.LangChoose.SelectionChangeCommitted += new System.EventHandler(this.LangChooseChangeCommitted);
             // 
             // InfoPanel
             // 

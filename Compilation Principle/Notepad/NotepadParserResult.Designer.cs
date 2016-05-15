@@ -59,6 +59,10 @@
             // 
             // ParserReTreelist
             // 
+            this.ParserReTreelist.Appearance.HeaderPanel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ParserReTreelist.Appearance.HeaderPanel.Options.UseFont = true;
+            this.ParserReTreelist.Appearance.Row.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.ParserReTreelist.Appearance.Row.Options.UseFont = true;
             this.ParserReTreelist.BestFitVisibleOnly = true;
             this.ParserReTreelist.Cursor = System.Windows.Forms.Cursors.Default;
             this.ParserReTreelist.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -70,6 +74,7 @@
             this.ParserReTreelist.OptionsBehavior.ReadOnly = true;
             this.ParserReTreelist.Size = new System.Drawing.Size(390, 529);
             this.ParserReTreelist.TabIndex = 0;
+            this.ParserReTreelist.CustomDrawNodeCell += new DevExpress.XtraTreeList.CustomDrawNodeCellEventHandler(this.ParserReTreelist_CustomDrawNodeCell);
             // 
             // splitContainer1
             // 

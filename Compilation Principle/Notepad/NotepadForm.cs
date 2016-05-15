@@ -41,6 +41,7 @@ namespace RDCompiler
             DebugGridview.Columns.Add("File", "文件");
             DebugGridview.Columns.Add("LineNo", "行号");
             DebugGridview.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            LangChoose.Text = "SNL";
         }
 
         public class SynchronizedScrollRichTextBox : System.Windows.Forms.RichTextBox
@@ -187,7 +188,6 @@ namespace RDCompiler
                 HighLightText();
             if (!IsDirty())
             {
-                Console.WriteLine("budirty");
                 return;
             }
             if (_CurrFileName == "")
@@ -260,9 +260,9 @@ namespace RDCompiler
             bool flag = false;
             DebugGridview.Rows.Clear();
             DebugGridview.Columns.Clear();
-            DebugGridview.Columns.Add("Code", "类型");
+            DebugGridview.Columns.Add("Code", "级别");
             DebugGridview.Columns.Add("Des", "说明");
-            DebugGridview.Columns.Add("Project", "项目");
+            DebugGridview.Columns.Add("Project", "类型");
             DebugGridview.Columns.Add("File", "文件");
             DebugGridview.Columns.Add("LineNo", "行号");
             DebugGridview.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
@@ -273,8 +273,11 @@ namespace RDCompiler
                 DebugGridview.Rows[index].Cells[0].Value = "ERROR";
                 DebugGridview.Rows[index].Cells[0].Style.ForeColor = Color.Red;
                 DebugGridview.Rows[index].Cells[1].Value = str[2];
-                DebugGridview.Rows[index].Cells[2].Value = "SNLLexer";
-                DebugGridview.Rows[index].Cells[3].Value = _CurrFileName;
+                DebugGridview.Rows[index].Cells[2].Value = "词法错误";
+                if(_CurrFileName=="")
+                    DebugGridview.Rows[index].Cells[3].Value = "无标题";
+                else
+                    DebugGridview.Rows[index].Cells[3].Value = _CurrFileName;
                 DebugGridview.Rows[index].Cells[4].Value = str[0];
                 flag = true;
             }
@@ -314,6 +317,7 @@ namespace RDCompiler
             if (changefont.ShowDialog() == DialogResult.OK)
             {
                 _LexerReForm.SetFont(changefont.Font);
+                _ParserReForm.SetFont(changefont.Font);
                 DebugGridview.Font = changefont.Font;
             }
         }
@@ -325,7 +329,7 @@ namespace RDCompiler
 
         }
 
-        private void 查看帮助ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SeeHelp_Click(object sender, EventArgs e)
         {
             MessageBox.Show("无法找到帮助文件！", "查找帮助文件", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
@@ -338,14 +342,14 @@ namespace RDCompiler
             form.ShowDialog();
         }
 
-        private void comboBox1_SelectionChangeCommitted(object sender, EventArgs e)
+        private void LangChooseChangeCommitted(object sender, EventArgs e)
         {
             if (LangChoose.Text != "SNL")
                 MessageBox.Show("该功能正在开发中!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             LangChoose.Text = "SNL";
         }
 
-        private void SaveRe_Click(object sender, EventArgs e)
+        private void SaveLexerRe_Click(object sender, EventArgs e)
         {
             StringBuilder sb = _LexerReForm.SaveRe();
             File.WriteAllText(_CurrFileDirectory + "\\TokenList.csv", sb.ToString(), Encoding.GetEncoding("gb2312"));
@@ -357,7 +361,6 @@ namespace RDCompiler
             p.StartInfo.CreateNoWindow = true;
             p.Start();
             p.StandardInput.WriteLine(_CurrFileDirectory + "\\TokenList.csv");
-
         }
 
         private void Parser_Click(object sender, EventArgs e)
@@ -375,13 +378,37 @@ namespace RDCompiler
             snlparser.StartParser(TokenList);
             DataTable dt = snlparser.GetDataTable();
             _ParserReForm.SetDataSource(dt);
-            List<string> DebugList = snlparser.GetDebugList();
-            foreach (string s in DebugList)
-            {
-                Console.WriteLine(s);
-            }
+            List<List<string>> DebugList = snlparser.GetDebugList();
+
             _LexerReForm.Hide();
             _ParserReForm.Show();
+
+            bool flag = false;
+            DebugGridview.Rows.Clear();
+            DebugGridview.Columns.Clear();
+            DebugGridview.Columns.Add("Code", "级别");
+            DebugGridview.Columns.Add("Des", "说明");
+            DebugGridview.Columns.Add("Project", "类型");
+            DebugGridview.Columns.Add("File", "文件");
+            DebugGridview.Columns.Add("LineNo", "行号");
+            DebugGridview.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            flag = false;
+            foreach (List<string> str in DebugList)
+            {
+                int index = DebugGridview.Rows.Add();
+                DebugGridview.Rows[index].Cells[0].Value = "ERROR";
+                DebugGridview.Rows[index].Cells[0].Style.ForeColor = Color.Red;
+                DebugGridview.Rows[index].Cells[1].Value = str[2];
+                DebugGridview.Rows[index].Cells[2].Value = "词法错误";
+                if (_CurrFileName == "")
+                    DebugGridview.Rows[index].Cells[3].Value = "无标题";
+                else
+                    DebugGridview.Rows[index].Cells[3].Value = _CurrFileName;
+                DebugGridview.Rows[index].Cells[4].Value = str[0];
+                flag = true;
+            }
+            if (flag)
+                DebugGridview.Rows[0].Selected = false;
         }
 
         private void NotepadForm_Move(object sender, EventArgs e)
@@ -395,6 +422,69 @@ namespace RDCompiler
         private void CurrTextbox_TextChanged(object sender, EventArgs e)
         {
             UpdateCurrNumberLabel();
+        }
+
+        private void SaveParserRe_Click(object sender, EventArgs e)
+        {
+            StringBuilder sb = _ParserReForm.SaveRe();
+            File.WriteAllText(_CurrFileDirectory + "\\ParserList.csv", sb.ToString(), Encoding.GetEncoding("gb2312"));
+            System.Diagnostics.Process p = new System.Diagnostics.Process();
+            p.StartInfo.FileName = "cmd.exe";
+            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.RedirectStandardInput = true;
+            p.StartInfo.RedirectStandardOutput = false;
+            p.StartInfo.CreateNoWindow = true;
+            p.Start();
+            p.StandardInput.WriteLine(_CurrFileDirectory + "\\ParserList.csv");
+        }
+
+        private void Exit_Click(object sender, EventArgs e)
+        {
+            string Info;
+            if (_CurrFileName == "")
+                Info = "是否将更改保存到 无标题？";
+            else
+                Info = "是否将更改保存到 " + _CurrFileName + "?";
+            if (IsDirty())
+            {
+                DialogResult re = MessageBox.Show(Info, "Warning", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+                if(_CurrFileName == "")
+                {
+                    if (re == DialogResult.Yes)
+                    {
+                        SaveAs();
+                        System.Environment.Exit(0);
+                    }
+                    else if (re == DialogResult.No) 
+                    {
+                        System.Environment.Exit(0);
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    if (re == DialogResult.Yes)
+                    {
+                        File.WriteAllText(_CurrFileFullPath, CurrTextbox.Text);
+                        _CurrFileContent = CurrTextbox.Text;
+                    }
+                    else if (re == DialogResult.No)
+                    {
+                        System.Environment.Exit(0);
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                System.Environment.Exit(0);
+            }
         }
     }
 }

@@ -12,6 +12,8 @@ namespace RDCompiler.Notepad
 {
     public partial class NotepadParserResult : Form
     {
+        private DataTable _DataTable = new DataTable();
+
         public NotepadParserResult()
         {
             InitializeComponent();
@@ -19,13 +21,25 @@ namespace RDCompiler.Notepad
 
         public void SetDataSource(DataTable dt)
         {
-            ParserReTreelist.DataSource = dt;
+            _DataTable = dt;
+            ParserReTreelist.DataSource = _DataTable ;
             for (int i = 3; i < ParserReTreelist.Columns.Count; i++)
             {
                 ParserReTreelist.Columns[i].Visible = false;
             }
             ParserReTreelist.ExpandAll();
             ParserReTreelist.BestFitColumns();
+        }
+
+        public StringBuilder SaveRe()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("NodeKind" + "," + "ID" + "," + "ParentID" + "," + "NodeID" + "," + "Priview" + "," + "Child" + "," + "Sibling" + "," + "LineNo" + "," + "K_Dec" + "," + "K_Stmt" + "," + "K_Exp" + "," + "ID_Num" + "," + "Name" + "," + "Table" + "," + "Attr" + "," + "TypeName" + "," + "AA_Low" + "," + "AA_Up" + "," + "AA_ChildType" + "," + "PA_Paramt" + "," + "EA_Op" + "," + "EA_Val" + "," + "EA_VarKind" + "," + "EA_Type"+",\n");
+            foreach (DataRow row in _DataTable.Rows)
+            {
+                sb.Append(row["NodeKind"].ToString() + "," + row["ID"].ToString() + "," + row["ParentID"].ToString() + "," + row["NodeID"].ToString() + "," + row["Priview"].ToString() + "," + row["Child"].ToString() + "," + row["Sibling"].ToString() + "," + row["LineNo"].ToString() + "," + row["K_Dec"].ToString() + "," + row["K_Stmt"].ToString() + "," + row["K_Exp"].ToString() + "," + row["ID_Num"].ToString() + "," + row["Name"].ToString() + "," + row["Table"].ToString() + "," + row["Attr"].ToString() + "," + row["TypeName"].ToString() + "," + row["AA_Low"].ToString() + "," + row["AA_Up"].ToString() + "," + row["AA_ChildType"].ToString() + "," + row["PA_Paramt"].ToString() + "," + row["EA_Op"].ToString() + "," + row["EA_Val"].ToString() + "," + row["EA_VarKind"].ToString() + "," + row["EA_Type"].ToString() + ",\n");
+            }
+            return sb;
         }
 
         private void NotepadParserResult_FormClosing(object sender, FormClosingEventArgs e)
@@ -193,6 +207,24 @@ namespace RDCompiler.Notepad
                 ParserReTreelist.Columns[21].VisibleIndex = -1;
             else
                 ParserReTreelist.Columns[21].VisibleIndex = 21;
+        }
+
+        internal void SetFont(Font font)
+        {
+            ParserReTreelist.Appearance.HeaderPanel.Font = font;
+            ParserReTreelist.Appearance.Row.Font = font;
+        }
+
+        private void ParserReTreelist_CustomDrawNodeCell(object sender, DevExpress.XtraTreeList.CustomDrawNodeCellEventArgs e)
+        {
+            if (e.Column == ParserReTreelist.Columns[0])
+            {
+                if (e.CellValue.ToString() != "1")
+                {
+                    e.Appearance.BackColor = Color.LightGray;
+                    e.Appearance.Options.UseBackColor = true;
+                }
+            }
         }
     }
 }
