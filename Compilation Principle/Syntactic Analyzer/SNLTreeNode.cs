@@ -60,7 +60,7 @@ namespace RDCompiler.Syntactic_Analyzer
         private int _IDNum = 0;
         private List<string> _Name = new List<string>();
         //private List<int> _Table = new List<int>();语义分析用
-        
+
         private Attr _Attr;
 
         public SNLTreeNode AddChild(SNLTreeNode Child)

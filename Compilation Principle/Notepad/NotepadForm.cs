@@ -274,7 +274,7 @@ namespace RDCompiler
                 DebugGridview.Rows[index].Cells[0].Style.ForeColor = Color.Red;
                 DebugGridview.Rows[index].Cells[1].Value = str[2];
                 DebugGridview.Rows[index].Cells[2].Value = "词法错误";
-                if(_CurrFileName=="")
+                if (_CurrFileName == "")
                     DebugGridview.Rows[index].Cells[3].Value = "无标题";
                 else
                     DebugGridview.Rows[index].Cells[3].Value = _CurrFileName;
@@ -448,14 +448,14 @@ namespace RDCompiler
             if (IsDirty())
             {
                 DialogResult re = MessageBox.Show(Info, "Warning", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
-                if(_CurrFileName == "")
+                if (_CurrFileName == "")
                 {
                     if (re == DialogResult.Yes)
                     {
                         SaveAs();
                         System.Environment.Exit(0);
                     }
-                    else if (re == DialogResult.No) 
+                    else if (re == DialogResult.No)
                     {
                         System.Environment.Exit(0);
                     }

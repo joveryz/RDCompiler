@@ -22,7 +22,7 @@ namespace RDCompiler.Notepad
         public void SetDataSource(DataTable dt)
         {
             _DataTable = dt;
-            ParserReTreelist.DataSource = _DataTable ;
+            ParserReTreelist.DataSource = _DataTable;
             for (int i = 3; i < ParserReTreelist.Columns.Count; i++)
             {
                 ParserReTreelist.Columns[i].Visible = false;
@@ -34,7 +34,7 @@ namespace RDCompiler.Notepad
         public StringBuilder SaveRe()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("NodeKind" + "," + "ID" + "," + "ParentID" + "," + "NodeID" + "," + "Priview" + "," + "Child" + "," + "Sibling" + "," + "LineNo" + "," + "K_Dec" + "," + "K_Stmt" + "," + "K_Exp" + "," + "ID_Num" + "," + "Name" + "," + "Table" + "," + "Attr" + "," + "TypeName" + "," + "AA_Low" + "," + "AA_Up" + "," + "AA_ChildType" + "," + "PA_Paramt" + "," + "EA_Op" + "," + "EA_Val" + "," + "EA_VarKind" + "," + "EA_Type"+",\n");
+            sb.Append("NodeKind" + "," + "ID" + "," + "ParentID" + "," + "NodeID" + "," + "Priview" + "," + "Child" + "," + "Sibling" + "," + "LineNo" + "," + "K_Dec" + "," + "K_Stmt" + "," + "K_Exp" + "," + "ID_Num" + "," + "Name" + "," + "Table" + "," + "Attr" + "," + "TypeName" + "," + "AA_Low" + "," + "AA_Up" + "," + "AA_ChildType" + "," + "PA_Paramt" + "," + "EA_Op" + "," + "EA_Val" + "," + "EA_VarKind" + "," + "EA_Type" + ",\n");
             foreach (DataRow row in _DataTable.Rows)
             {
                 sb.Append(row["NodeKind"].ToString() + "," + row["ID"].ToString() + "," + row["ParentID"].ToString() + "," + row["NodeID"].ToString() + "," + row["Priview"].ToString() + "," + row["Child"].ToString() + "," + row["Sibling"].ToString() + "," + row["LineNo"].ToString() + "," + row["K_Dec"].ToString() + "," + row["K_Stmt"].ToString() + "," + row["K_Exp"].ToString() + "," + row["ID_Num"].ToString() + "," + row["Name"].ToString() + "," + row["Table"].ToString() + "," + row["Attr"].ToString() + "," + row["TypeName"].ToString() + "," + row["AA_Low"].ToString() + "," + row["AA_Up"].ToString() + "," + row["AA_ChildType"].ToString() + "," + row["PA_Paramt"].ToString() + "," + row["EA_Op"].ToString() + "," + row["EA_Val"].ToString() + "," + row["EA_VarKind"].ToString() + "," + row["EA_Type"].ToString() + ",\n");

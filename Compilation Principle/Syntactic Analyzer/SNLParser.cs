@@ -45,7 +45,7 @@ namespace RDCompiler.Syntactic_Analyzer
         {
             return _Root;
         }
-        
+
         public List<List<string>> GetDebugList()
         {
             return _DebugList;
@@ -140,13 +140,13 @@ namespace RDCompiler.Syntactic_Analyzer
             for (i = 0; i < indentno; i++)
                 Console.Write(" ");
         }
-        
+
         private void AddDebugInfo(SNLLexType LexType)
         {
             List<string> debug = new List<string>();
             debug.Add(_TokenList[_Pointer - 1].GetLineNo().ToString());
             debug.Add(LexType.ToString());
-            debug.Add("A "+LexType.ToString()+" type toekn is expected!");
+            debug.Add("A " + LexType.ToString() + " type toekn is expected!");
             _DebugList.Add(debug);
         }
         private void printTab(int tabnum)
@@ -260,34 +260,34 @@ namespace RDCompiler.Syntactic_Analyzer
                         Console.Write("StmLk  "); break;
 
                     case SNLTreeNodeType.StmtK:
-                            Console.Write("StmtK  ");
-                            switch (tree.GetKindStmt())
-                            {
-                                case SNLTreeNodeTypeStmt.IfK:
-                                    Console.Write("If  "); break;
-                                case SNLTreeNodeTypeStmt.WhileK:
-                                    Console.Write("While  "); break;
+                        Console.Write("StmtK  ");
+                        switch (tree.GetKindStmt())
+                        {
+                            case SNLTreeNodeTypeStmt.IfK:
+                                Console.Write("If  "); break;
+                            case SNLTreeNodeTypeStmt.WhileK:
+                                Console.Write("While  "); break;
 
-                                case SNLTreeNodeTypeStmt.AssignK:
-                                    Console.Write("Assign  ");
-                                    break;
-                                case SNLTreeNodeTypeStmt.ReadK:
-                                    Console.Write("Read  ");
-                                    Console.Write(tree.GetName(0) + "  ");
-                                    break;
-                                case SNLTreeNodeTypeStmt.WriteK:
-                                    Console.Write("Write  "); break;
+                            case SNLTreeNodeTypeStmt.AssignK:
+                                Console.Write("Assign  ");
+                                break;
+                            case SNLTreeNodeTypeStmt.ReadK:
+                                Console.Write("Read  ");
+                                Console.Write(tree.GetName(0) + "  ");
+                                break;
+                            case SNLTreeNodeTypeStmt.WriteK:
+                                Console.Write("Write  "); break;
 
-                                case SNLTreeNodeTypeStmt.CallK:
-                                    Console.Write("Call  ");
-                                    break;
-                                case SNLTreeNodeTypeStmt.ReturnK:
-                                    Console.Write("Return  "); break;
-                                default:
-                                    Console.Write("error2!");
-                                    Error = true;
-                                    break;
-                            }
+                            case SNLTreeNodeTypeStmt.CallK:
+                                Console.Write("Call  ");
+                                break;
+                            case SNLTreeNodeTypeStmt.ReturnK:
+                                Console.Write("Return  "); break;
+                            default:
+                                Console.Write("error2!");
+                                Error = true;
+                                break;
+                        }
                         break;
                     case SNLTreeNodeType.ExpK:
                         {
@@ -295,37 +295,37 @@ namespace RDCompiler.Syntactic_Analyzer
                             switch (tree.GetKindExp())
                             {
                                 case SNLTreeNodeTypeExp.OpK:
-                                        Console.Write("Op  ");
-                                        switch (tree.GetAttrExpOP())
-                                        {
-                                            case SNLLexType.EQ:
-                                                Console.Write("=  ");
-                                                break;
-                                            case SNLLexType.LT:
-                                                Console.Write("<  ");
-                                                break;
-                                            case SNLLexType.PLUS:
-                                                Console.Write("+  ");
-                                                break;
-                                            case SNLLexType.MINUS:
-                                                Console.Write("-  ");
-                                                break;
-                                            case SNLLexType.TIMES:
-                                                Console.Write("*  ");
-                                                break;
-                                            case SNLLexType.OVER:
-                                                Console.Write("/  ");
-                                                break;
-                                            default:
-                                                Console.Write("error3!");
-                                                Error = true;
-                                                break;
-                                        }
-                                        if (tree.GetAttrExpVarKind() == SNLExpAttrVarKindType.ArrayMembV)
-                                        {
-                                            Console.Write("ArrayMember  ");
-                                            Console.Write(tree.GetName(0) + "  ");
-                                        }
+                                    Console.Write("Op  ");
+                                    switch (tree.GetAttrExpOP())
+                                    {
+                                        case SNLLexType.EQ:
+                                            Console.Write("=  ");
+                                            break;
+                                        case SNLLexType.LT:
+                                            Console.Write("<  ");
+                                            break;
+                                        case SNLLexType.PLUS:
+                                            Console.Write("+  ");
+                                            break;
+                                        case SNLLexType.MINUS:
+                                            Console.Write("-  ");
+                                            break;
+                                        case SNLLexType.TIMES:
+                                            Console.Write("*  ");
+                                            break;
+                                        case SNLLexType.OVER:
+                                            Console.Write("/  ");
+                                            break;
+                                        default:
+                                            Console.Write("error3!");
+                                            Error = true;
+                                            break;
+                                    }
+                                    if (tree.GetAttrExpVarKind() == SNLExpAttrVarKindType.ArrayMembV)
+                                    {
+                                        Console.Write("ArrayMember  ");
+                                        Console.Write(tree.GetName(0) + "  ");
+                                    }
                                     break;
                                 case SNLTreeNodeTypeExp.ConstK:
                                     Console.Write("Const  ");
@@ -653,7 +653,7 @@ namespace RDCompiler.Syntactic_Analyzer
 
         private bool match(SNLLexType LexType)
         {
-            if (_Pointer<_TokenList.Count && _TokenList[_Pointer].GetLexType() == LexType)
+            if (_Pointer < _TokenList.Count && _TokenList[_Pointer].GetLexType() == LexType)
             {
                 ReadToken();
                 return true;
