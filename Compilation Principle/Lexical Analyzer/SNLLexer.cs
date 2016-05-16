@@ -58,7 +58,7 @@ namespace RDCompiler.Lexical_Analyzer
                         List<string> s = new List<string>();
                         s.Add(_LineNo.ToString());
                         s.Add(SNLLexType.ASSIGN.ToString());
-                        s.Add("UNEXPECTED CHARACTER" + Content[_Pointer--] + "AFTER \':\'\n");
+                        s.Add("Unexpected character after : ");
                         _DebugList.Add(s);
                     }
 
@@ -86,7 +86,7 @@ namespace RDCompiler.Lexical_Analyzer
                             List<string> s = new List<string>();
                             s.Add(_LineNo.ToString());
                             s.Add(SNLLexType.DOT.ToString());
-                            s.Add("UNEXPECTED DOT\n");
+                            s.Add("Unexpected DOT");
                             _DebugList.Add(s);
                             _Pointer--;
                         }
@@ -102,7 +102,7 @@ namespace RDCompiler.Lexical_Analyzer
                             List<string> s = new List<string>();
                             s.Add(_LineNo.ToString());
                             s.Add(SNLLexType.CHARC.ToString());
-                            s.Add("MORE THAN ONE CHARACTER BETWEEN \"\'\" AND \"\'\"\n");
+                            s.Add("More than one character between \' and  \' ");
                             _DebugList.Add(s);
                             _Pointer--;
                         }
@@ -113,7 +113,7 @@ namespace RDCompiler.Lexical_Analyzer
                     List<string> s = new List<string>();
                     s.Add(_LineNo.ToString());
                     s.Add(SNLLexType.CHARC.ToString());
-                    s.Add("UNKNOWN CHARACTER" + x + "\n");
+                    s.Add("Unknown character " + x + " ");
                     _DebugList.Add(s);
                 }
 

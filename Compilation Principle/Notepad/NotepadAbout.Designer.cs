@@ -98,7 +98,6 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "关于“RDCompiler”";
-            this.TopMost = true;
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -521,7 +521,6 @@
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "NotepadForm";
             this.Text = "无标题 - RDCompiler";
-            this.TopMost = true;
             this.Load += new System.EventHandler(this.NotepadForm_Load);
             this.Move += new System.EventHandler(this.NotepadForm_Move);
             this.MenuList.ResumeLayout(false);
