@@ -140,7 +140,15 @@ namespace RDCompiler.Syntactic_Analyzer
             for (i = 0; i < indentno; i++)
                 Console.Write(" ");
         }
-
+        
+        private void AddDebugInfo(SNLLexType LexType)
+        {
+            List<string> debug = new List<string>();
+            debug.Add(_TokenList[_Pointer - 1].GetLineNo().ToString());
+            debug.Add(LexType.ToString());
+            debug.Add("A "+LexType.ToString()+" type toekn is expected!");
+            _DebugList.Add(debug);
+        }
         private void printTab(int tabnum)
         {
             for (int i = 0; i < tabnum; i++)
@@ -643,18 +651,16 @@ namespace RDCompiler.Syntactic_Analyzer
             return false;
         }
 
-        private void match(SNLLexType LexType)
+        private bool match(SNLLexType LexType)
         {
-            if (_TokenList[_Pointer].GetLexType() == LexType)
+            if (_Pointer<_TokenList.Count && _TokenList[_Pointer].GetLexType() == LexType)
             {
                 ReadToken();
+                return true;
             }
-            else
-            {
-                _DebugList.Add("not match error " + LexType.ToString());
-                ReadToken();
-            }
-
+            ReadToken();
+            AddDebugInfo(LexType);
+            return false;
         }
 
         private SNLTreeNode program()
@@ -666,16 +672,26 @@ namespace RDCompiler.Syntactic_Analyzer
             if (t != null)
                 root.AddChild(t);
             else
-                _DebugList.Add("a program head is expected!");
+            {
+                List<string> debug = new List<string>();
+                debug.Add(_TokenList[_Pointer].GetLineNo().ToString());
+                debug.Add("NULL");
+                debug.Add("A Pprogram head is expected!");
+                _DebugList.Add(debug);
+            }
             if (q != null)
                 root.AddChild(q);
             if (s != null)
                 root.AddChild(s);
             else
-                _DebugList.Add("a program body is expected!");
-
+            {
+                List<string> debug = new List<string>();
+                debug.Add(_TokenList[_Pointer].GetLineNo().ToString());
+                debug.Add("NULL");
+                debug.Add("A Program body is expected!");
+                _DebugList.Add(debug);
+            }
             match(SNLLexType.DOT);
-
             return root;
         }
 
@@ -748,7 +764,11 @@ namespace RDCompiler.Syntactic_Analyzer
 
                 default:
                     ReadToken();
-                    _DebugList.Add("unexpected token is here!");
+                    List<string> debug = new List<string>();
+                    debug.Add("NULL");
+                    debug.Add("NULL");
+                    debug.Add("An unexpected token is here!");
+                    _DebugList.Add(debug);
                     break;
             }
             return t;
@@ -760,7 +780,11 @@ namespace RDCompiler.Syntactic_Analyzer
             SNLTreeNode t = typeDecList();
             if (t == null)
             {
-                _DebugList.Add("a type declaration is expected!");
+                List<string> debug = new List<string>();
+                debug.Add(_TokenList[_Pointer].GetLineNo().ToString());
+                debug.Add("NULL");
+                debug.Add("A type declaration is expected!");
+                _DebugList.Add(debug);
             }
             return t;
         }
@@ -795,7 +819,11 @@ namespace RDCompiler.Syntactic_Analyzer
                     break;
                 default:
                     ReadToken();
-                    _DebugList.Add("unexpected token is here!");
+                    List<string> debug = new List<string>();
+                    debug.Add(_TokenList[_Pointer].GetLineNo().ToString());
+                    debug.Add("NULL");
+                    debug.Add("An unexpected token is here!");
+                    _DebugList.Add(debug);
                     break;
             }
             return t;
@@ -830,7 +858,11 @@ namespace RDCompiler.Syntactic_Analyzer
                         break;
                     default:
                         ReadToken();
-                        _DebugList.Add("unexpected token is here!");
+                        List<string> debug = new List<string>();
+                        debug.Add(_TokenList[_Pointer].GetLineNo().ToString());
+                        debug.Add("NULL");
+                        debug.Add("An unexpected token is here!");
+                        _DebugList.Add(debug);
                         break;
                 }
         }
@@ -851,7 +883,11 @@ namespace RDCompiler.Syntactic_Analyzer
 
                 default:
                     ReadToken();
-                    _DebugList.Add("unexpected token is here!");
+                    List<string> debug = new List<string>();
+                    debug.Add(_TokenList[_Pointer].GetLineNo().ToString());
+                    debug.Add("NULL");
+                    debug.Add("An unexpected token is here!");
+                    _DebugList.Add(debug);
                     break;
             }
         }
@@ -869,7 +905,11 @@ namespace RDCompiler.Syntactic_Analyzer
                     break;
                 default:
                     ReadToken();
-                    _DebugList.Add("unexpected token is here!");
+                    List<string> debug = new List<string>();
+                    debug.Add(_TokenList[_Pointer].GetLineNo().ToString());
+                    debug.Add("NULL");
+                    debug.Add("An unexpected token is here!");
+                    _DebugList.Add(debug);
                     break;
             }
         }
@@ -906,7 +946,13 @@ namespace RDCompiler.Syntactic_Analyzer
             if (p != null)
                 t.AddChild(p);
             else
-                _DebugList.Add("a record body is requested!");
+            {
+                List<string> debug = new List<string>();
+                debug.Add(_TokenList[_Pointer].GetLineNo().ToString());
+                debug.Add("NULL");
+                debug.Add("A record body is requested!");
+                _DebugList.Add(debug);
+            }
             match(SNLLexType.END);
         }
 
@@ -933,7 +979,11 @@ namespace RDCompiler.Syntactic_Analyzer
                         break;
                     default:
                         ReadToken();
-                        _DebugList.Add("unexpected token is here!");
+                        List<string> debug = new List<string>();
+                        debug.Add(_TokenList[_Pointer].GetLineNo().ToString());
+                        debug.Add("NULL");
+                        debug.Add("An unexpected token is here!");
+                        _DebugList.Add(debug);
                         break;
                 }
                 t.SetSibling(p);
@@ -955,7 +1005,11 @@ namespace RDCompiler.Syntactic_Analyzer
                     break;
                 default:
                     ReadToken();
-                    _DebugList.Add("unexpected token is here!");
+                    List<string> debug = new List<string>();
+                    debug.Add(_TokenList[_Pointer].GetLineNo().ToString());
+                    debug.Add("NULL");
+                    debug.Add("An unexpected token is here!");
+                    _DebugList.Add(debug);
                     break;
             }
             return t;
@@ -982,7 +1036,11 @@ namespace RDCompiler.Syntactic_Analyzer
                     break;
                 default:
                     ReadToken();
-                    _DebugList.Add("unexpected token is here!");
+                    List<string> debug = new List<string>();
+                    debug.Add(_TokenList[_Pointer].GetLineNo().ToString());
+                    debug.Add("NULL");
+                    debug.Add("An unexpected token is here!");
+                    _DebugList.Add(debug);
                     break;
             }
         }
@@ -1000,7 +1058,11 @@ namespace RDCompiler.Syntactic_Analyzer
                     break;
                 default:
                     ReadToken();
-                    _DebugList.Add("unexpected token is here!");
+                    List<string> debug = new List<string>();
+                    debug.Add(_TokenList[_Pointer].GetLineNo().ToString());
+                    debug.Add("NULL");
+                    debug.Add("An unexpected token is here!");
+                    _DebugList.Add(debug);
                     break;
             }
             return t;
@@ -1011,7 +1073,13 @@ namespace RDCompiler.Syntactic_Analyzer
             match(SNLLexType.VAR);
             SNLTreeNode t = varDecList();
             if (t == null)
-                _DebugList.Add("a var declaration is expected!");
+            {
+                List<string> debug = new List<string>();
+                debug.Add(_TokenList[_Pointer].GetLineNo().ToString());
+                debug.Add("NULL");
+                debug.Add("A var declaration is expected!");
+                _DebugList.Add(debug);
+            }
             return t;
         }
 
@@ -1049,7 +1117,11 @@ namespace RDCompiler.Syntactic_Analyzer
                     break;
                 default:
                     ReadToken();
-                    _DebugList.Add("unexpected token is here!");
+                    List<string> debug = new List<string>();
+                    debug.Add(_TokenList[_Pointer].GetLineNo().ToString());
+                    debug.Add("NULL");
+                    debug.Add("An unexpected token is here!");
+                    _DebugList.Add(debug);
                     break;
             }
             return t;
@@ -1064,8 +1136,12 @@ namespace RDCompiler.Syntactic_Analyzer
             }
             else
             {
-                _DebugList.Add("a varid is expected here!");
                 ReadToken();
+                List<string> debug = new List<string>();
+                debug.Add(_TokenList[_Pointer].GetLineNo().ToString());
+                debug.Add("NULL");
+                debug.Add("A varid is expected here!");
+                _DebugList.Add(debug);
             }
             varIdMore(t);
         }
@@ -1082,7 +1158,11 @@ namespace RDCompiler.Syntactic_Analyzer
                     break;
                 default:
                     ReadToken();
-                    _DebugList.Add("unexpected token is here!");
+                    List<string> debug = new List<string>();
+                    debug.Add(_TokenList[_Pointer].GetLineNo().ToString());
+                    debug.Add("NULL");
+                    debug.Add("An unexpected token is here!");
+                    _DebugList.Add(debug);
                     break;
             }
         }
@@ -1098,7 +1178,11 @@ namespace RDCompiler.Syntactic_Analyzer
                     break;
                 default:
                     ReadToken();
-                    _DebugList.Add("unexpected token is here!");
+                    List<string> debug = new List<string>();
+                    debug.Add(_TokenList[_Pointer].GetLineNo().ToString());
+                    debug.Add("NULL");
+                    debug.Add("An unexpected token is here!");
+                    _DebugList.Add(debug);
                     break;
             }
             return t;
@@ -1144,7 +1228,11 @@ namespace RDCompiler.Syntactic_Analyzer
                     break;
                 default:
                     ReadToken();
-                    _DebugList.Add("unexpected token is here!");
+                    List<string> debug = new List<string>();
+                    debug.Add(_TokenList[_Pointer].GetLineNo().ToString());
+                    debug.Add("NULL");
+                    debug.Add("An unexpected token is here!");
+                    _DebugList.Add(debug);
                     break;
             }
         }
@@ -1171,11 +1259,21 @@ namespace RDCompiler.Syntactic_Analyzer
                     match(SNLLexType.SEMI);
                     t = paramDecList();
                     if (t == null)
-                        _DebugList.Add("a param declaration is request!");
+                    {
+                        List<string> sdebug = new List<string>();
+                        sdebug.Add(_TokenList[_Pointer].GetLineNo().ToString());
+                        sdebug.Add("NULL");
+                        sdebug.Add("A param declaration is request!");
+                        _DebugList.Add(sdebug);
+                    }
                     break;
                 default:
                     ReadToken();
-                    _DebugList.Add("unexpected token is here!");
+                    List<string> debug = new List<string>();
+                    debug.Add(_TokenList[_Pointer].GetLineNo().ToString());
+                    debug.Add("NULL");
+                    debug.Add("An unexpected token is here!");
+                    _DebugList.Add(debug);
                     break;
             }
             return t;
@@ -1205,7 +1303,11 @@ namespace RDCompiler.Syntactic_Analyzer
                         break;
                     default:
                         ReadToken();
-                        _DebugList.Add("unexpected token is here!");
+                        List<string> debug = new List<string>();
+                        debug.Add(_TokenList[_Pointer].GetLineNo().ToString());
+                        debug.Add("NULL");
+                        debug.Add("An unexpected token is here!");
+                        _DebugList.Add(debug);
                         break;
                 }
             }
@@ -1235,7 +1337,11 @@ namespace RDCompiler.Syntactic_Analyzer
                     break;
                 default:
                     ReadToken();
-                    _DebugList.Add("unexpected token is here!");
+                    List<string> debug = new List<string>();
+                    debug.Add(_TokenList[_Pointer].GetLineNo().ToString());
+                    debug.Add("NULL");
+                    debug.Add("An unexpected token is here!");
+                    _DebugList.Add(debug);
                     break;
             }
         }
@@ -1250,7 +1356,13 @@ namespace RDCompiler.Syntactic_Analyzer
         {
             SNLTreeNode t = programBody();
             if (t == null)
-                _DebugList.Add("a program body is requested!");
+            {
+                List<string> debug = new List<string>();
+                debug.Add(_TokenList[_Pointer].GetLineNo().ToString());
+                debug.Add("NULL");
+                debug.Add("A program body is requested!");
+                _DebugList.Add(debug);
+            }
             return t;
         }
 
@@ -1292,7 +1404,11 @@ namespace RDCompiler.Syntactic_Analyzer
                     break;
                 default:
                     ReadToken();
-                    _DebugList.Add("unexpected token is here!");
+                    List<string> debug = new List<string>();
+                    debug.Add(_TokenList[_Pointer].GetLineNo().ToString());
+                    debug.Add("NULL");
+                    debug.Add("An unexpected token is here!");
+                    _DebugList.Add(debug);
                     break;
             }
             return t;
@@ -1326,7 +1442,11 @@ namespace RDCompiler.Syntactic_Analyzer
                     break;
                 default:
                     ReadToken();
-                    _DebugList.Add("unexpected token is here!");
+                    List<string> debug = new List<string>();
+                    debug.Add(_TokenList[_Pointer].GetLineNo().ToString());
+                    debug.Add("NULL");
+                    debug.Add("An unexpected token is here!");
+                    _DebugList.Add(debug);
                     break;
             }
             return t;
@@ -1347,7 +1467,11 @@ namespace RDCompiler.Syntactic_Analyzer
                     break;
                 default:
                     ReadToken();
-                    _DebugList.Add("unexpected token is here!");
+                    List<string> debug = new List<string>();
+                    debug.Add(_TokenList[_Pointer].GetLineNo().ToString());
+                    debug.Add("NULL");
+                    debug.Add("An unexpected token is here!");
+                    _DebugList.Add(debug);
                     break;
             }
             return t;
@@ -1473,7 +1597,11 @@ namespace RDCompiler.Syntactic_Analyzer
                     break;
                 default:
                     ReadToken();
-                    _DebugList.Add("unexpected token is here!");
+                    List<string> debug = new List<string>();
+                    debug.Add(_TokenList[_Pointer].GetLineNo().ToString());
+                    debug.Add("NULL");
+                    debug.Add("An unexpected token is here!");
+                    _DebugList.Add(debug);
                     break;
             }
             return t;
@@ -1491,7 +1619,11 @@ namespace RDCompiler.Syntactic_Analyzer
                     break;
                 default:
                     ReadToken();
-                    _DebugList.Add("unexpected token is here!");
+                    List<string> debug = new List<string>();
+                    debug.Add(_TokenList[_Pointer].GetLineNo().ToString());
+                    debug.Add("NULL");
+                    debug.Add("An unexpected token is here!");
+                    _DebugList.Add(debug);
                     break;
             }
             return t;
@@ -1579,7 +1711,11 @@ namespace RDCompiler.Syntactic_Analyzer
                     break;
                 default:
                     ReadToken();
-                    _DebugList.Add("unexpected token is here!");
+                    List<string> debug = new List<string>();
+                    debug.Add(_TokenList[_Pointer].GetLineNo().ToString());
+                    debug.Add("NULL");
+                    debug.Add("An unexpected token is here!");
+                    _DebugList.Add(debug);
                     break;
             }
             return t;
@@ -1636,7 +1772,11 @@ namespace RDCompiler.Syntactic_Analyzer
                     break;
                 default:
                     ReadToken();
-                    _DebugList.Add("unexpected token is here!");
+                    List<string> debug = new List<string>();
+                    debug.Add(_TokenList[_Pointer].GetLineNo().ToString());
+                    debug.Add("NULL");
+                    debug.Add("An unexpected token is here!");
+                    _DebugList.Add(debug);
                     break;
             }
         }
@@ -1683,7 +1823,11 @@ namespace RDCompiler.Syntactic_Analyzer
                     break;
                 default:
                     ReadToken();
-                    _DebugList.Add("unexpected token is here!");
+                    List<string> debug = new List<string>();
+                    debug.Add(_TokenList[_Pointer].GetLineNo().ToString());
+                    debug.Add("NULL");
+                    debug.Add("An unexpected token is here!");
+                    _DebugList.Add(debug);
                     break;
             }
         }
